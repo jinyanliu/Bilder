@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Bilder</string>
+
+    <!-- Edit Text Hint On the Main Screen.
+    Used in activity_main.xml -->
+    <string name="edit_text_search_hint">What photo are you looking for ?</string>
 </resources>
