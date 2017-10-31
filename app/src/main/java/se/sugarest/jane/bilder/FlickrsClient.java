@@ -6,6 +6,8 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
+import static se.sugarest.jane.bilder.Constants.MY_API_KEY;
+
 /**
  * Created by jane on 17-10-31.
  */
@@ -17,7 +19,7 @@ import retrofit2.http.Path;
 public interface FlickrsClient {
 
     // The endpoint for the request
-    @GET("/rest/?method=flickr.photos.search&api_key=[YOUR_API_KEY]&text={key}&format=json&nojsoncallback=1")
+    @GET("/rest/?method=flickr.photos.search&api_key="+ MY_API_KEY +"&text={key}&format=json&nojsoncallback=1")
     Call<List<Photo>> picForKey(@Path("key") String key);
 
 }
