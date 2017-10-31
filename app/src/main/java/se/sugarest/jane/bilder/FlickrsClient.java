@@ -19,6 +19,7 @@ import static se.sugarest.jane.bilder.Constants.MY_API_KEY;
 public interface FlickrsClient {
 
     // The endpoint for the request
+    // TODO: Move constant urls to Constants file.
     @GET("/rest/?method=flickr.photos.search&api_key="+ MY_API_KEY +"&text={key}&format=json&nojsoncallback=1")
     Call<List<Photo>> picForKey(@Path("key") String key);
 
