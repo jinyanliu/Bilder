@@ -18,6 +18,10 @@ public class Constants {
 
     public static final String TEXT_PARAM = "text";
 
+    public static final String PER_PAGE_PARAM = "per_page";
+
+    public static final String PER_PAGE = "52";
+
     public static final String FORMAT_PARAM = "format";
 
     public static final String FORMAT = "json";
@@ -27,5 +31,9 @@ public class Constants {
     public static final String NOJSONCALLBACK = "1";
 
     public static final String PHOTO_SIZE_MAIN_ACTIVITY = "n";
+
+    public static final String SEARCH_QUERY_URL_TEXT = "search_text";
+
+    public static final int FLICKR_SEARCH_LOADER = 22;
 
 }

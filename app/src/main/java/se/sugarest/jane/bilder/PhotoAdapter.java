@@ -87,10 +87,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
     public void onBindViewHolder(PhotoAdapterViewHolder holder, int position) {
         String currentPhoto = mPhotoUrlStrings.get(position);
 
+        Log.i(LOG_TAG, "Picasso is loading picture: " + currentPhoto);
+
         Picasso.with(mainActivity)
                 .load(currentPhoto)
-                // TODO : if error, provide a drawable
-                // .error(R.drawable.photo_on_error)
+                .placeholder(R.mipmap.ic_launcher_round)
                 .into(holder.mPhotoImageView);
     }
 
@@ -112,6 +113,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         mPhotoUrlStrings.clear();
         mPhotoUrlStrings.addAll(photoUrls);
         notifyDataSetChanged();
+        Log.i(LOG_TAG, "Adapter Debug: notify data set change." + mPhotoUrlStrings.toString());
     }
 
     /**

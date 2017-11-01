@@ -1,54 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
+    android:orientation="vertical"
     tools:context="se.sugarest.jane.bilder.ui.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearlayout"
+    <EditText
+        android:paddingTop="@dimen/activity_vertial_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertial_margin"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:hint="@string/edit_text_search_hint"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/edit_text_search_hint"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/button_text_search"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/button_text_search"
+        android:textColor="@android:color/white" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertial_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearlayout">
+        android:layout_marginTop="@dimen/activity_vertial_margin">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -69,6 +53,6 @@
             android:layout_gravity="center"
             android:text="@string/empty_result_text_view_string"
             android:textColor="@android:color/white"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
     </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

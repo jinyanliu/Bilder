@@ -23,6 +23,8 @@ import static se.sugarest.jane.bilder.Constants.METHOD;
 import static se.sugarest.jane.bilder.Constants.METHOD_PARAM;
 import static se.sugarest.jane.bilder.Constants.NOJSONCALLBACK;
 import static se.sugarest.jane.bilder.Constants.NOJSONCALLBACK_PARAM;
+import static se.sugarest.jane.bilder.Constants.PER_PAGE;
+import static se.sugarest.jane.bilder.Constants.PER_PAGE_PARAM;
 import static se.sugarest.jane.bilder.Constants.TEXT_PARAM;
 
 /**
@@ -42,6 +44,7 @@ public class NetworkUtils {
                 .appendQueryParameter(METHOD_PARAM, METHOD)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(TEXT_PARAM, text)
+                .appendQueryParameter(PER_PAGE_PARAM, PER_PAGE)
                 .appendQueryParameter(FORMAT_PARAM, FORMAT)
                 .appendQueryParameter(NOJSONCALLBACK_PARAM, NOJSONCALLBACK)
                 .build();
