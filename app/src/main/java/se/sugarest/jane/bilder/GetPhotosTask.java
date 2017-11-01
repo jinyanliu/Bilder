@@ -50,5 +50,18 @@ public class GetPhotosTask extends AsyncTask<String, Void, List<Photo>> {
     protected void onPostExecute(List<Photo> photos) {
         super.onPostExecute(photos);
         Log.i(LOG_TAG, "There are: " + photos.size() + " available.");
+
+        for (int i = 0; i < photos.size(); i++) {
+            Photo currentPhoto = photos.get(i);
+            int farm_id = currentPhoto.getPhotoFarm();
+            String server_id = currentPhoto.getPhotoServer();
+            String photo_id = currentPhoto.getPhotoId();
+            String secret = currentPhoto.getPhotoSecret();
+            String size = "s";
+            String currentPhotoUrl = "https://farm" + String.valueOf(farm_id)
+                    + ".staticflickr.com/" + server_id + "/" + photo_id + "_" + secret + "_" + size + ".jpg";
+            Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);
+        }
+
     }
 }

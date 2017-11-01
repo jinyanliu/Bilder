@@ -41,9 +41,9 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(FLICKR_BASE_URL).buildUpon()
                 .appendQueryParameter(METHOD_PARAM, METHOD)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
-                .appendQueryParameter(TEXT_PARAM,text)
-                .appendQueryParameter(FORMAT_PARAM,FORMAT)
-                .appendQueryParameter(NOJSONCALLBACK_PARAM,NOJSONCALLBACK)
+                .appendQueryParameter(TEXT_PARAM, text)
+                .appendQueryParameter(FORMAT_PARAM, FORMAT)
+                .appendQueryParameter(NOJSONCALLBACK_PARAM, NOJSONCALLBACK)
                 .build();
         URL url = null;
         try {
