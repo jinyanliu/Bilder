@@ -4,4 +4,8 @@
     <!-- Edit Text hint on the main screen.
     Used in activity_main.xml -->
     <string name="edit_text_search_hint">What photo are you looking for ?</string>
+
+    <!-- The text on the search button on the main screen.
+    Used in activity_main.xml -->
+    <string name="button_text_search">Search</string>
 </resources>
