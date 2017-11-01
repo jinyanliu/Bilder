@@ -26,6 +26,6 @@ public class Constants {
 
     public static final String NOJSONCALLBACK = "1";
 
-    public static final String PHOTO_SIZE_MAIN_ACTIVITY = "z";
+    public static final String PHOTO_SIZE_MAIN_ACTIVITY = "n";
 
 }
