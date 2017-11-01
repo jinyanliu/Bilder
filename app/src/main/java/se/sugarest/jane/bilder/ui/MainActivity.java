@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 String editTextString = mEditText.getText().toString();
                 if (editTextString.trim().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please tell me what to search! :)", Toast.LENGTH_SHORT).show();
@@ -52,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
                 }
             }
         });
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void setUpRecyclerViewWithAdapter() {
