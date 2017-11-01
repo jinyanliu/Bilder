@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
     private TextView mEmptyTextView;
 
+    private Toast mToast;
+
     public PhotoAdapter getmPhotoAdapter() {
         return mPhotoAdapter;
     }
@@ -90,7 +93,13 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     private void makeFlickrSearchQuery() {
         String editTextString = mEditText.getText().toString();
         if (editTextString.trim().isEmpty()) {
-            Toast.makeText(MainActivity.this, getText(R.string.toast_message_no_search_key_word_provided), Toast.LENGTH_SHORT).show();
+            showToast();
+            if (mToast != null) {
+                mToast.cancel();
+            }
+            mToast = Toast.makeText(this, getString(R.string.toast_message_no_search_key_word_provided), Toast.LENGTH_SHORT);
+            mToast.setGravity(Gravity.BOTTOM, 0, 0);
+            mToast.show();
         } else {
             URL photoRequestUrl = NetworkUtils.buildUrl(editTextString);
             Bundle queryBundle = new Bundle();
@@ -156,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
                 if (args == null) {
                     return;
                 }
-                mProgressBar.setVisibility(View.VISIBLE);
+                showLoadingIndicator();
                 if (mFlickrPhotoList != null) {
                     deliverResult(mFlickrPhotoList);
                 } else {
@@ -196,11 +205,11 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     @Override
     public void onLoadFinished(Loader<List<Photo>> loader, List<Photo> data) {
         mProgressBar.setVisibility(View.INVISIBLE);
-        if (null == data) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mEmptyTextView.setVisibility(View.VISIBLE);
+        if (null == data || data.size() == 0) {
+            showEmptyView();
             Log.i(LOG_TAG, "No Photo data comes back.");
         } else {
+            showRecyclerView();
             ArrayList<String> photoUrlStrings = new ArrayList<>();
             for (int i = 0; i < data.size(); i++) {
                 Photo currentPhoto = data.get(i);
@@ -221,5 +230,29 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
     @Override
     public void onLoaderReset(Loader<List<Photo>> loader) {
+    }
+
+    private void showRecyclerView() {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mEmptyTextView.setVisibility(View.INVISIBLE);
+    }
+
+    private void showEmptyView() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mEmptyTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void showLoadingIndicator() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mEmptyTextView.setVisibility(View.INVISIBLE);
+    }
+
+    private void showToast(){
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mEmptyTextView.setVisibility(View.INVISIBLE);
     }
 }

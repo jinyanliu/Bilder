@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/edit_text_search_hint"
         android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
+        android:textColorHint="@android:color/white"
+        android:singleLine="true"/>
 
     <Button
         android:id="@+id/button"
