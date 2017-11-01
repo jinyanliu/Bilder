@@ -2,6 +2,7 @@ package se.sugarest.jane.bilder;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class GetPhotosTask extends AsyncTask<String, Void, List<Photo>> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        this.mainActivity.getmProgressBar().setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -61,6 +63,11 @@ public class GetPhotosTask extends AsyncTask<String, Void, List<Photo>> {
         super.onPostExecute(photos);
         Log.i(LOG_TAG, "There are: " + photos.size() + " photos available.");
 
+        if (photos == null || photos.size() == 0) {
+            this.mainActivity.getmProgressBar().setVisibility(View.INVISIBLE);
+            this.mainActivity.getmEmptyTextView().setVisibility(View.VISIBLE);
+        }
+
         ArrayList<String> photoUrlStrings = new ArrayList<>();
 
         for (int i = 0; i < photos.size(); i++) {
@@ -77,9 +84,7 @@ public class GetPhotosTask extends AsyncTask<String, Void, List<Photo>> {
         }
 
         this.mainActivity.getmPhotoAdapter().setPhotoData(photoUrlStrings);
-
+        this.mainActivity.getmProgressBar().setVisibility(View.INVISIBLE);
         Log.i(LOG_TAG, "There are : " + photoUrlStrings.size() + " photo urls.");
-
-
     }
 }

@@ -8,4 +8,13 @@
     <!-- The text on the search button on the main screen.
     Used in activity_main.xml -->
     <string name="button_text_search">Search</string>
+
+    <!-- The toast message shows up on main screen, when user click search button but without
+    providing a key word.
+    Used in MainActivity.java -->
+    <string name="toast_message_no_search_key_word_provided">Please tell me what to search! :)</string>
+
+    <!-- The text to show on main screen, when no results found after searching.
+    Used in activity_main.xml -->
+    <string name="empty_result_text_view_string">No photos found! Please try another key word! :)</string>
 </resources>

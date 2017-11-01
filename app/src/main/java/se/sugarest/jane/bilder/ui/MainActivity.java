@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import se.sugarest.jane.bilder.GetPhotosTask;
@@ -28,8 +30,20 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
     private PhotoAdapter mPhotoAdapter;
 
+    private ProgressBar mProgressBar;
+
+    private TextView mEmptyTextView;
+
     public PhotoAdapter getmPhotoAdapter() {
         return mPhotoAdapter;
+    }
+
+    public ProgressBar getmProgressBar() {
+        return mProgressBar;
+    }
+
+    public TextView getmEmptyTextView() {
+        return mEmptyTextView;
     }
 
     @Override
@@ -41,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
         mEditText = (EditText) findViewById(R.id.editText);
         mButton = (Button) findViewById(R.id.button);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mEmptyTextView = (TextView)findViewById(R.id.tv_empty_result);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
                 hideKeyboard();
                 String editTextString = mEditText.getText().toString();
                 if (editTextString.trim().isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please tell me what to search! :)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getText(R.string.toast_message_no_search_key_word_provided), Toast.LENGTH_SHORT).show();
                 } else {
                     new GetPhotosTask(MainActivity.this).execute(editTextString);
                 }
@@ -60,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         // Check if no view has focus:
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
