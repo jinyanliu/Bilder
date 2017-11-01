@@ -7,10 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import se.sugarest.jane.bilder.GetPhotosTask;
 import se.sugarest.jane.bilder.PhotoAdapter;
 import se.sugarest.jane.bilder.R;
 
 public class MainActivity extends AppCompatActivity implements PhotoAdapter.PhotoAdapterOnClickHandler {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
 
@@ -21,6 +24,13 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setUpRecyclerViewWithAdapter();
+
+        new GetPhotosTask().execute("dog");
+
+    }
+
+    private void setUpRecyclerViewWithAdapter() {
         /**
          * Using findViewById, get a reference to the RecyclerView from xml.
          */
@@ -55,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
          * Setting the adapter attaches it to the RecyclerView in the layout.
          */
         mRecyclerView.setAdapter(mPhotoAdapter);
-
     }
 
     @Override
