@@ -132,7 +132,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
 
         @Override
         public void onClick(View v) {
-
+            int adapterPosition = getAdapterPosition();
+            String clickPhotoUrl = mPhotoUrlStrings.get(adapterPosition);
+            mClickHandler.onClick(clickPhotoUrl);
         }
     }
 }

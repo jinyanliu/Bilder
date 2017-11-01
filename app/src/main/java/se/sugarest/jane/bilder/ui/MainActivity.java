@@ -32,6 +32,7 @@ import se.sugarest.jane.bilder.utilities.FlickrJsonUtils;
 import se.sugarest.jane.bilder.utilities.NetworkUtils;
 
 import static se.sugarest.jane.bilder.Constants.FLICKR_SEARCH_LOADER;
+import static se.sugarest.jane.bilder.Constants.INTENT_EXTRA_TITLE;
 import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
 import static se.sugarest.jane.bilder.Constants.SEARCH_QUERY_URL_TEXT;
 
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra("photoUrl", photoUrl);
+        intentToStartDetailActivity.putExtra(INTENT_EXTRA_TITLE, photoUrl);
         startActivity(intentToStartDetailActivity);
     }
 

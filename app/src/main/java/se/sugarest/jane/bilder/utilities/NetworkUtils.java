@@ -15,17 +15,17 @@ import java.net.URL;
 import java.util.Scanner;
 
 import static se.sugarest.jane.bilder.Constants.API_KEY;
-import static se.sugarest.jane.bilder.Constants.API_KEY_PARAM;
+import static se.sugarest.jane.bilder.Constants.PARAM_API_KEY;
 import static se.sugarest.jane.bilder.Constants.FLICKR_BASE_URL;
 import static se.sugarest.jane.bilder.Constants.FORMAT;
-import static se.sugarest.jane.bilder.Constants.FORMAT_PARAM;
+import static se.sugarest.jane.bilder.Constants.PARAM_FORMAT;
 import static se.sugarest.jane.bilder.Constants.METHOD;
-import static se.sugarest.jane.bilder.Constants.METHOD_PARAM;
+import static se.sugarest.jane.bilder.Constants.PARAM_METHOD;
 import static se.sugarest.jane.bilder.Constants.NOJSONCALLBACK;
-import static se.sugarest.jane.bilder.Constants.NOJSONCALLBACK_PARAM;
+import static se.sugarest.jane.bilder.Constants.PARAM_NOJSONCALLBACK;
 import static se.sugarest.jane.bilder.Constants.PER_PAGE;
-import static se.sugarest.jane.bilder.Constants.PER_PAGE_PARAM;
-import static se.sugarest.jane.bilder.Constants.TEXT_PARAM;
+import static se.sugarest.jane.bilder.Constants.PARAM_PER_PAGE;
+import static se.sugarest.jane.bilder.Constants.PARAM_TEXT;
 
 /**
  * These utilities will be used to communicate with the Flickr API.
@@ -41,12 +41,12 @@ public class NetworkUtils {
      */
     public static URL buildUrl(String text) {
         Uri builtUri = Uri.parse(FLICKR_BASE_URL).buildUpon()
-                .appendQueryParameter(METHOD_PARAM, METHOD)
-                .appendQueryParameter(API_KEY_PARAM, API_KEY)
-                .appendQueryParameter(TEXT_PARAM, text)
-                .appendQueryParameter(PER_PAGE_PARAM, PER_PAGE)
-                .appendQueryParameter(FORMAT_PARAM, FORMAT)
-                .appendQueryParameter(NOJSONCALLBACK_PARAM, NOJSONCALLBACK)
+                .appendQueryParameter(PARAM_METHOD, METHOD)
+                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+                .appendQueryParameter(PARAM_TEXT, text)
+                .appendQueryParameter(PARAM_PER_PAGE, PER_PAGE)
+                .appendQueryParameter(PARAM_FORMAT, FORMAT)
+                .appendQueryParameter(PARAM_NOJSONCALLBACK, NOJSONCALLBACK)
                 .build();
         URL url = null;
         try {
