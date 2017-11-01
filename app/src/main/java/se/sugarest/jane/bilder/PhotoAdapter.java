@@ -91,7 +91,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
 
         Picasso.with(mainActivity)
                 .load(currentPhoto)
-                .placeholder(R.mipmap.ic_launcher_round)
+                .placeholder(R.drawable.blackbg_picasso)
+                .error(R.drawable.blackbg_picasso)
                 .into(holder.mPhotoImageView);
     }
 
