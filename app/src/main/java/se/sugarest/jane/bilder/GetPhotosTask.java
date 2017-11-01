@@ -4,11 +4,15 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import se.sugarest.jane.bilder.ui.MainActivity;
 import se.sugarest.jane.bilder.utilities.FlickrJsonUtils;
 import se.sugarest.jane.bilder.utilities.NetworkUtils;
+
+import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
 
 /**
  * Created by jane on 17-11-1.
@@ -17,6 +21,12 @@ import se.sugarest.jane.bilder.utilities.NetworkUtils;
 public class GetPhotosTask extends AsyncTask<String, Void, List<Photo>> {
 
     private final static String LOG_TAG = GetPhotosTask.class.getSimpleName();
+
+    MainActivity mainActivity;
+
+    public GetPhotosTask(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -49,7 +59,9 @@ public class GetPhotosTask extends AsyncTask<String, Void, List<Photo>> {
     @Override
     protected void onPostExecute(List<Photo> photos) {
         super.onPostExecute(photos);
-        Log.i(LOG_TAG, "There are: " + photos.size() + " available.");
+        Log.i(LOG_TAG, "There are: " + photos.size() + " photos available.");
+
+        ArrayList<String> photoUrlStrings = new ArrayList<>();
 
         for (int i = 0; i < photos.size(); i++) {
             Photo currentPhoto = photos.get(i);
@@ -57,11 +69,17 @@ public class GetPhotosTask extends AsyncTask<String, Void, List<Photo>> {
             String server_id = currentPhoto.getPhotoServer();
             String photo_id = currentPhoto.getPhotoId();
             String secret = currentPhoto.getPhotoSecret();
-            String size = "s";
+            String size = PHOTO_SIZE_MAIN_ACTIVITY;
             String currentPhotoUrl = "https://farm" + String.valueOf(farm_id)
                     + ".staticflickr.com/" + server_id + "/" + photo_id + "_" + secret + "_" + size + ".jpg";
             Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);
+            photoUrlStrings.add(currentPhotoUrl);
         }
+
+        this.mainActivity.getmPhotoAdapter().setPhotoData(photoUrlStrings);
+
+        Log.i(LOG_TAG, "There are : " + photoUrlStrings.size() + " photo urls.");
+
 
     }
 }

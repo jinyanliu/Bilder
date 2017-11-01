@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
     private PhotoAdapter mPhotoAdapter;
 
+    public PhotoAdapter getmPhotoAdapter() {
+        return mPhotoAdapter;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
         setUpRecyclerViewWithAdapter();
 
-        new GetPhotosTask().execute("dog");
+        new GetPhotosTask(this).execute("dog");
 
     }
 

@@ -123,7 +123,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
 
         public PhotoAdapterViewHolder(View itemView) {
             super(itemView);
-            mPhotoImageView = (ImageView) itemView.findViewById(R.id.recyclerview_photos);
+            mPhotoImageView = (ImageView) itemView.findViewById(R.id.iv_photo);
             itemView.setOnClickListener(this);
         }
 

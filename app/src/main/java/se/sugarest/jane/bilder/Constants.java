@@ -14,7 +14,7 @@ public class Constants {
 
     public static final String API_KEY_PARAM = "api_key";
 
-    public static final String API_KEY = "b994a688a68e976cb8de261f1fe33006";
+    public static final String API_KEY = "YOUR_API_KEY";
 
     public static final String TEXT_PARAM = "text";
 
@@ -26,5 +26,6 @@ public class Constants {
 
     public static final String NOJSONCALLBACK = "1";
 
+    public static final String PHOTO_SIZE_MAIN_ACTIVITY = "z";
 
 }
