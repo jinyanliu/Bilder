@@ -36,7 +36,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:text="@string/button_text_search"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:id="@+id/button"/>
     </LinearLayout>
 
 

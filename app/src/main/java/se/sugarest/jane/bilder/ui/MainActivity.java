@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import se.sugarest.jane.bilder.GetPhotosTask;
 import se.sugarest.jane.bilder.PhotoAdapter;
@@ -16,6 +20,10 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
+
+    private EditText mEditText;
+
+    private Button mButton;
 
     private PhotoAdapter mPhotoAdapter;
 
@@ -30,8 +38,20 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
         setUpRecyclerViewWithAdapter();
 
-        new GetPhotosTask(this).execute("dog");
+        mEditText = (EditText) findViewById(R.id.editText);
+        mButton = (Button) findViewById(R.id.button);
 
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String editTextString = mEditText.getText().toString();
+                if (editTextString.trim().isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please tell me what to search! :)", Toast.LENGTH_SHORT).show();
+                } else {
+                    new GetPhotosTask(MainActivity.this).execute(editTextString);
+                }
+            }
+        });
     }
 
     private void setUpRecyclerViewWithAdapter() {
