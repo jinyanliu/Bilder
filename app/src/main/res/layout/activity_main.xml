@@ -8,20 +8,20 @@
     tools:context="se.sugarest.jane.bilder.ui.MainActivity">
 
     <EditText
-        android:paddingTop="@dimen/activity_vertial_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_text_search_hint"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:singleLine="true"
         android:focusable="true"
-        android:focusableInTouchMode="true"/>
+        android:focusableInTouchMode="true"
+        android:hint="@string/edit_text_search_hint"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertial_margin"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
 
     <Button
         android:id="@+id/button"
