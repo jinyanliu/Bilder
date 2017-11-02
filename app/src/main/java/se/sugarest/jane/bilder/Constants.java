@@ -5,7 +5,7 @@ package se.sugarest.jane.bilder;
  */
 
 public class Constants {
-    public static final String FLICKR_BASE_URL = "https://api.flickr.com/services/rest/";
+    public static final String FLICKR_BASE_URL_RETROFIT = "https://api.flickr.com/";
 
     // Query Parameters and Values.
     // Value of PARAM_TEXT, is user put from EditText on MainActivity.
@@ -28,12 +28,6 @@ public class Constants {
 
     public static final String PHOTO_SIZE_MAIN_ACTIVITY = "n";
     public static final String PHOTO_SIZE_DETAIL_ACTIVITY = "h";
-
-    // The constant used in queryBundle with AsyncTaskLoader in MainActivity.
-    public static final String SEARCH_QUERY_URL_TEXT = "search_text";
-
-    // A random number to tag the loader.
-    public static final int FLICKR_SEARCH_LOADER = 22;
 
     // The intent extra title passing between MainActivity and DetailActivity.
     public static final String INTENT_EXTRA_TITLE = "photoUrl";

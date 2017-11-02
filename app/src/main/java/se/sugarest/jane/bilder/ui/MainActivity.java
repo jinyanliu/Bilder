@@ -3,13 +3,9 @@ package se.sugarest.jane.bilder.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,24 +16,31 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import se.sugarest.jane.bilder.api.FlickrClient;
 import se.sugarest.jane.bilder.R;
+import se.sugarest.jane.bilder.data.JSONResponse;
 import se.sugarest.jane.bilder.data.Photo;
 import se.sugarest.jane.bilder.data.PhotoAdapter;
-import se.sugarest.jane.bilder.utilities.FlickrJsonUtils;
-import se.sugarest.jane.bilder.utilities.NetworkUtils;
 
-import static se.sugarest.jane.bilder.Constants.FLICKR_SEARCH_LOADER;
+import static se.sugarest.jane.bilder.Constants.API_KEY;
+import static se.sugarest.jane.bilder.Constants.FLICKR_BASE_URL_RETROFIT;
+import static se.sugarest.jane.bilder.Constants.FORMAT;
 import static se.sugarest.jane.bilder.Constants.INTENT_EXTRA_TITLE;
+import static se.sugarest.jane.bilder.Constants.METHOD;
+import static se.sugarest.jane.bilder.Constants.NOJSONCALLBACK;
+import static se.sugarest.jane.bilder.Constants.PER_PAGE;
 import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
-import static se.sugarest.jane.bilder.Constants.SEARCH_QUERY_URL_TEXT;
 
-public class MainActivity extends AppCompatActivity implements PhotoAdapter.PhotoAdapterOnClickHandler,
-        LoaderManager.LoaderCallbacks<List<Photo>> {
+public class MainActivity extends AppCompatActivity implements PhotoAdapter.PhotoAdapterOnClickHandler {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
@@ -47,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     private ProgressBar mProgressBar;
     private TextView mEmptyTextView;
     private Toast mToast;
-    private Loader<List<Photo>> flickrSearchLoader;
     private String editTextString;
 
     @Override
@@ -55,16 +57,16 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setUpRecyclerViewWithAdapter();
-
         mEditText = (EditText) findViewById(R.id.editText);
         mButton = (Button) findViewById(R.id.button);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mEmptyTextView = (TextView) findViewById(R.id.tv_empty_result);
 
-        // Using Loader to make sure the search results will survive on configuration change.
-        getSupportLoaderManager().initLoader(FLICKR_SEARCH_LOADER, null, this);
+        setUpRecyclerViewWithAdapter();
+        setUpSearchButtonClick();
+    }
 
+    private void setUpSearchButtonClick() {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,15 +77,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         });
     }
 
-    // Override onStart method here, so when user comes back to MainActivity from DetailActivity,
-    // it won't refresh the activity or restart loading photos. All the results survive.
-    @Override
-    protected void onStart() {
-        super.onStart();
-        getSupportLoaderManager().initLoader(FLICKR_SEARCH_LOADER, null, this);
-    }
-
     private void makeFlickrSearchQuery() {
+        showLoadingIndicator();
         editTextString = mEditText.getText().toString();
         if (editTextString.trim().isEmpty()) {
             showToast();
@@ -94,27 +89,64 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             mToast.setGravity(Gravity.BOTTOM, 0, 0);
             mToast.show();
         } else {
-            manageLoader();
+            setUpRetrofitGet();
         }
     }
 
-    // A helper method here to decide that we initLoader or restartLoader.
-    private void manageLoader() {
-        // Using buildUrl method from NetworkUtils to get the complete url we will use to query.
-        URL photoRequestUrl = NetworkUtils.buildUrl(editTextString);
-        Log.i(LOG_TAG, "Complete url to query is: " + photoRequestUrl.toString());
-        Bundle queryBundle = new Bundle();
-        queryBundle.putString(SEARCH_QUERY_URL_TEXT, photoRequestUrl.toString());
+    /**
+     * Use External Library Retrofit to GET photos list,
+     * according to user input key word as a parameter.
+     * Reference: https://github.com/square/retrofit
+     */
+    private void setUpRetrofitGet() {
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        Retrofit.Builder builder =
+                new Retrofit.Builder()
+                        .baseUrl(FLICKR_BASE_URL_RETROFIT)
+                        .addConverterFactory(GsonConverterFactory.create());
 
-        LoaderManager loaderManager = getSupportLoaderManager();
-        flickrSearchLoader = loaderManager.getLoader(FLICKR_SEARCH_LOADER);
-        if (flickrSearchLoader == null) {
-            loaderManager.initLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
-            Log.i(LOG_TAG, "InitLoader.");
-        } else {
-            loaderManager.restartLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
-            Log.i(LOG_TAG, "RestartLoader.");
+        Retrofit retrofit = builder.client(httpClient.build()).build();
+        FlickrClient client = retrofit.create(FlickrClient.class);
+        Call<JSONResponse> call = client.jsonForKey(METHOD, API_KEY, editTextString, PER_PAGE, FORMAT, NOJSONCALLBACK);
+
+        call.enqueue(new Callback<JSONResponse>() {
+            @Override
+            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
+                Log.i(LOG_TAG, "Complete url to request is: " + response.raw().request().url().toString());
+                Log.i(LOG_TAG, "response.body().toString == " + response.body().toString());
+                // Get the list of photos from response.
+                List<Photo> photoLists = response.body().getPhotos().getPhoto();
+                if (photoLists.size() > 0) {
+                    setPhotoListDataToRecyclerView(photoLists);
+                } else {
+                    showEmptyView();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONResponse> call, Throwable t) {
+                showEmptyView();
+                Log.i(LOG_TAG, "No Photo data comes back.");
+            }
+        });
+    }
+
+    private void setPhotoListDataToRecyclerView(List<Photo> photoLists) {
+        showRecyclerView();
+        ArrayList<String> photoUrlStrings = new ArrayList<>();
+        for (int i = 0; i < photoLists.size(); i++) {
+            Photo currentPhoto = photoLists.get(i);
+            int farm_id = currentPhoto.getFarm();
+            String server_id = currentPhoto.getServer();
+            String photo_id = currentPhoto.getId();
+            String secret = currentPhoto.getSecret();
+            String currentPhotoUrl = "https://farm" + String.valueOf(farm_id)
+                    + ".staticflickr.com/" + server_id + "/" + photo_id + "_" + secret + "_" + PHOTO_SIZE_MAIN_ACTIVITY + ".jpg";
+            Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);
+            photoUrlStrings.add(currentPhotoUrl);
         }
+        mPhotoAdapter.setPhotoData(photoUrlStrings);
+        Log.i(LOG_TAG, "Set photo date to adapter.");
     }
 
     private void hideKeyboard() {
@@ -149,82 +181,6 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
         intentToStartDetailActivity.putExtra(INTENT_EXTRA_TITLE, photoUrl);
         startActivity(intentToStartDetailActivity);
-    }
-
-    @Override
-    public Loader<List<Photo>> onCreateLoader(int id, final Bundle args) {
-        return new AsyncTaskLoader<List<Photo>>(this) {
-
-            List<Photo> mFlickrPhotoList;
-
-            @Override
-            protected void onStartLoading() {
-                if (args == null) {
-                    return;
-                }
-                showLoadingIndicator();
-                if (mFlickrPhotoList != null) {
-                    deliverResult(mFlickrPhotoList);
-                } else {
-                    forceLoad();
-                }
-            }
-
-            @Override
-            public List<Photo> loadInBackground() {
-                String searchQueryUrlString = args.getString(SEARCH_QUERY_URL_TEXT);
-                if (searchQueryUrlString == null || TextUtils.isEmpty(searchQueryUrlString)) {
-                    return null;
-                }
-                try {
-                    URL flickrUrl = new URL(searchQueryUrlString);
-                    String jsonFlickrResponse = NetworkUtils
-                            .getResponseFromHttpUrl(flickrUrl);
-                    mFlickrPhotoList = FlickrJsonUtils
-                            .extractResultsFromJson(jsonFlickrResponse);
-                    return mFlickrPhotoList;
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, e.getMessage());
-                    return Collections.emptyList();
-                }
-            }
-
-            @Override
-            public void deliverResult(List<Photo> data) {
-                super.deliverResult(data);
-                mFlickrPhotoList = data;
-            }
-        };
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Photo>> loader, List<Photo> data) {
-        mProgressBar.setVisibility(View.INVISIBLE);
-        if (null == data || data.size() == 0) {
-            showEmptyView();
-            Log.i(LOG_TAG, "No Photo data comes back.");
-        } else {
-            showRecyclerView();
-            ArrayList<String> photoUrlStrings = new ArrayList<>();
-            for (int i = 0; i < data.size(); i++) {
-                Photo currentPhoto = data.get(i);
-                int farm_id = currentPhoto.getFarm();
-                String server_id = currentPhoto.getServer();
-                String photo_id = currentPhoto.getId();
-                String secret = currentPhoto.getSecret();
-                String currentPhotoUrl = "https://farm" + String.valueOf(farm_id)
-                        + ".staticflickr.com/" + server_id + "/" + photo_id + "_" + secret + "_" + PHOTO_SIZE_MAIN_ACTIVITY + ".jpg";
-                Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);
-                photoUrlStrings.add(currentPhotoUrl);
-
-            }
-            mPhotoAdapter.setPhotoData(photoUrlStrings);
-            Log.i(LOG_TAG, "Set photo date to adapter.");
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Photo>> loader) {
     }
 
     /**

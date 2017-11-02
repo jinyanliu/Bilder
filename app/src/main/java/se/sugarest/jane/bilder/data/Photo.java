@@ -1,68 +1,108 @@
 package se.sugarest.jane.bilder.data;
 
-/**
- * Created by jane on 17-10-31.
- */
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Photo {
 
+    @SerializedName("id")
+    @Expose
     private String id;
+    @SerializedName("owner")
+    @Expose
     private String owner;
+    @SerializedName("secret")
+    @Expose
     private String secret;
+    @SerializedName("server")
+    @Expose
     private String server;
-    private int farm;
+    @SerializedName("farm")
+    @Expose
+    private Integer farm;
+    @SerializedName("title")
+    @Expose
     private String title;
-    private int ispublic;
-    private int isfriend;
-    private int isfamily;
-
-    public Photo(String photoId, String photoOwner, String photoSecret, String photoServer,
-                 int photoFarm, String photoTitle, int photoIsPublic, int photoIsFriend, int photoIsFamily) {
-        this.id = photoId;
-        this.owner = photoOwner;
-        this.secret = photoSecret;
-        this.server = photoServer;
-        this.farm = photoFarm;
-        this.title = photoTitle;
-        this.ispublic = photoIsPublic;
-        this.isfriend = photoIsFriend;
-        this.isfamily = photoIsFamily;
-    }
+    @SerializedName("ispublic")
+    @Expose
+    private Integer ispublic;
+    @SerializedName("isfriend")
+    @Expose
+    private Integer isfriend;
+    @SerializedName("isfamily")
+    @Expose
+    private Integer isfamily;
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOwner() {
         return owner;
     }
 
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     public String getSecret() {
         return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     public String getServer() {
         return server;
     }
 
-    public int getFarm() {
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    public Integer getFarm() {
         return farm;
+    }
+
+    public void setFarm(Integer farm) {
+        this.farm = farm;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getIspublic() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getIspublic() {
         return ispublic;
     }
 
-    public int getIsfriend() {
+    public void setIspublic(Integer ispublic) {
+        this.ispublic = ispublic;
+    }
+
+    public Integer getIsfriend() {
         return isfriend;
     }
 
-    public int getIsfamily() {
+    public void setIsfriend(Integer isfriend) {
+        this.isfriend = isfriend;
+    }
+
+    public Integer getIsfamily() {
         return isfamily;
+    }
+
+    public void setIsfamily(Integer isfamily) {
+        this.isfamily = isfamily;
     }
 
     @Override
@@ -87,15 +127,15 @@ public class Photo {
 
         Photo photo = (Photo) o;
 
-        if (farm != photo.farm) return false;
-        if (ispublic != photo.ispublic) return false;
-        if (isfriend != photo.isfriend) return false;
-        if (isfamily != photo.isfamily) return false;
         if (!id.equals(photo.id)) return false;
         if (!owner.equals(photo.owner)) return false;
         if (!secret.equals(photo.secret)) return false;
         if (!server.equals(photo.server)) return false;
-        return title.equals(photo.title);
+        if (!farm.equals(photo.farm)) return false;
+        if (!title.equals(photo.title)) return false;
+        if (!ispublic.equals(photo.ispublic)) return false;
+        if (!isfriend.equals(photo.isfriend)) return false;
+        return isfamily.equals(photo.isfamily);
     }
 
     @Override
@@ -104,12 +144,11 @@ public class Photo {
         result = 31 * result + owner.hashCode();
         result = 31 * result + secret.hashCode();
         result = 31 * result + server.hashCode();
-        result = 31 * result + farm;
+        result = 31 * result + farm.hashCode();
         result = 31 * result + title.hashCode();
-        result = 31 * result + ispublic;
-        result = 31 * result + isfriend;
-        result = 31 * result + isfamily;
+        result = 31 * result + ispublic.hashCode();
+        result = 31 * result + isfriend.hashCode();
+        result = 31 * result + isfamily.hashCode();
         return result;
     }
 }
-
