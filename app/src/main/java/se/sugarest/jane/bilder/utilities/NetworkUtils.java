@@ -31,14 +31,8 @@ import static se.sugarest.jane.bilder.Constants.PARAM_TEXT;
  * These utilities will be used to communicate with the Flickr API.
  */
 public class NetworkUtils {
+    final static String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    final static String TAG = NetworkUtils.class.getSimpleName();
-
-    /**
-     * Builds the URL used to query Flickr API
-     *
-     * @return The URL to use to query the Flickr API
-     */
     public static URL buildUrl(String text) {
         Uri builtUri = Uri.parse(FLICKR_BASE_URL).buildUpon()
                 .appendQueryParameter(PARAM_METHOD, METHOD)
@@ -52,26 +46,21 @@ public class NetworkUtils {
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
-            Log.e(TAG, "This URL: " + builtUri + " is malformed.");
+            Log.e(LOG_TAG, "This URL: " + builtUri + " is malformed.");
         }
         return url;
     }
 
     /**
-     * This method returns the entire result from the HTTP response.
-     *
-     * @param url The URL to fetch the HTTP response from.
-     * @return The contents of the HTTP response.
+     * @return The entire result from the HTTP response.
      * @throws IOException Related to network and stream reading.
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
-
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
-
             boolean hasInput = scanner.hasNext();
             if (hasInput) {
                 return scanner.next();
@@ -83,3 +72,6 @@ public class NetworkUtils {
         }
     }
 }
+
+
+
