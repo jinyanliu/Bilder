@@ -20,11 +20,13 @@ import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
  */
 
 public class DetailActivity extends AppCompatActivity {
-
     private final static String LOG_TAG = DetailActivity.class.getSimpleName();
 
+    /**
+     * External Lib: PhotoView
+     * Reference: https://github.com/chrisbanes/PhotoView
+     */
     PhotoView mPhotoView;
-
     String mCurrentPhotoUrl;
 
     @Override
@@ -38,16 +40,20 @@ public class DetailActivity extends AppCompatActivity {
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(INTENT_EXTRA_TITLE)) {
                 mCurrentPhotoUrl = getIntent().getExtras().getString(INTENT_EXTRA_TITLE);
+                mCurrentPhotoUrl = mCurrentPhotoUrl.replace("_" + PHOTO_SIZE_MAIN_ACTIVITY,
+                        "_" + PHOTO_SIZE_DETAIL_ACTIVITY);
+                Log.i(LOG_TAG, "Current Photo url is: " + mCurrentPhotoUrl);
+
+                // Set photo using its url with Picasso Lib
+                // Reference: https://github.com/square/picasso
+                Picasso.with(this)
+                        .load(mCurrentPhotoUrl)
+                        .into(mPhotoView);
+            } else {
+                Log.e(LOG_TAG, "Missing intent extra value associated with extra title: " + INTENT_EXTRA_TITLE);
             }
+        } else {
+            Log.e(LOG_TAG, "Missing intent.");
         }
-
-        mCurrentPhotoUrl = mCurrentPhotoUrl.replace("_" + PHOTO_SIZE_MAIN_ACTIVITY, "_" + PHOTO_SIZE_DETAIL_ACTIVITY);
-
-        Log.i(LOG_TAG, "Current Photo url is: " + mCurrentPhotoUrl);
-
-        Picasso.with(this)
-                .load(mCurrentPhotoUrl)
-                .into(mPhotoView);
-
     }
 }
