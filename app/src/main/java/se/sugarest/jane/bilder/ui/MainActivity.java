@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
     private Toast mToast;
 
+    private Loader<List<Photo>> flickrSearchLoader;
+
+    private String editTextString;
+
     public PhotoAdapter getmPhotoAdapter() {
         return mPhotoAdapter;
     }
@@ -85,14 +89,21 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             @Override
             public void onClick(View v) {
                 hideKeyboard();
+                mEditText.clearFocus();
                 makeFlickrSearchQuery();
                 Log.i(LOG_TAG, "Adapter Debug: Button Clicked.");
             }
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getSupportLoaderManager().initLoader(FLICKR_SEARCH_LOADER, null, this);
+    }
+
     private void makeFlickrSearchQuery() {
-        String editTextString = mEditText.getText().toString();
+        editTextString = mEditText.getText().toString();
         if (editTextString.trim().isEmpty()) {
             showToast();
             if (mToast != null) {
@@ -102,21 +113,25 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             mToast.setGravity(Gravity.BOTTOM, 0, 0);
             mToast.show();
         } else {
-            URL photoRequestUrl = NetworkUtils.buildUrl(editTextString);
-            Bundle queryBundle = new Bundle();
-            queryBundle.putString(SEARCH_QUERY_URL_TEXT, photoRequestUrl.toString());
+            manageLoader();
+        }
+    }
 
-            Log.i(LOG_TAG, "Adapter Debug: complete url to request is: " + photoRequestUrl.toString());
+    private void manageLoader() {
+        URL photoRequestUrl = NetworkUtils.buildUrl(editTextString);
+        Bundle queryBundle = new Bundle();
+        queryBundle.putString(SEARCH_QUERY_URL_TEXT, photoRequestUrl.toString());
 
-            LoaderManager loaderManager = getSupportLoaderManager();
-            Loader<List<Photo>> flickrSearchLoader = loaderManager.getLoader(FLICKR_SEARCH_LOADER);
-            if (flickrSearchLoader == null) {
-                loaderManager.initLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
-                Log.i(LOG_TAG, "Adapter Debug: initLoader.");
-            } else {
-                loaderManager.restartLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
-                Log.i(LOG_TAG, "Adapter Debug: restartLoader.");
-            }
+        Log.i(LOG_TAG, "Adapter Debug: complete url to request is: " + photoRequestUrl.toString());
+
+        LoaderManager loaderManager = getSupportLoaderManager();
+        flickrSearchLoader = loaderManager.getLoader(FLICKR_SEARCH_LOADER);
+        if (flickrSearchLoader == null) {
+            loaderManager.initLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
+            Log.i(LOG_TAG, "Adapter Debug: initLoader.");
+        } else {
+            loaderManager.restartLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
+            Log.i(LOG_TAG, "Adapter Debug: restartLoader.");
         }
     }
 
@@ -251,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         mEmptyTextView.setVisibility(View.INVISIBLE);
     }
 
-    private void showToast(){
+    private void showToast() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mEmptyTextView.setVisibility(View.INVISIBLE);

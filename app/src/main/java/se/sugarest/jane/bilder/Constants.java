@@ -32,7 +32,7 @@ public class Constants {
 
     public static final String PHOTO_SIZE_MAIN_ACTIVITY = "n";
 
-    public static final String PHOTO_SIZE_DETAIL_ACTIVITY = "k";
+    public static final String PHOTO_SIZE_DETAIL_ACTIVITY = "h";
 
     public static final String SEARCH_QUERY_URL_TEXT = "search_text";
 
