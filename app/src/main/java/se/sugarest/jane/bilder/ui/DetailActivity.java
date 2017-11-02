@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
@@ -28,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     PhotoView mPhotoView;
     String mCurrentPhotoUrl;
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         mPhotoView = (PhotoView) findViewById(R.id.iv_full_size_photo);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        showLoadingIndicator();
 
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity != null) {
@@ -44,10 +50,13 @@ public class DetailActivity extends AppCompatActivity {
                         "_" + PHOTO_SIZE_DETAIL_ACTIVITY);
                 Log.i(LOG_TAG, "Current Photo url is: " + mCurrentPhotoUrl);
 
+                showPhotoView();
                 // Set photo using its url with Picasso Lib
                 // Reference: https://github.com/square/picasso
                 Picasso.with(this)
                         .load(mCurrentPhotoUrl)
+                        .placeholder(R.drawable.blackbg_picasso)
+                        .error(R.drawable.blackbg_picasso)
                         .into(mPhotoView);
             } else {
                 Log.e(LOG_TAG, "Missing intent extra value associated with extra title: " + INTENT_EXTRA_TITLE);
@@ -55,5 +64,15 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             Log.e(LOG_TAG, "Missing intent.");
         }
+    }
+
+    private void showLoadingIndicator() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mPhotoView.setVisibility(View.INVISIBLE);
+    }
+
+    private void showPhotoView() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mPhotoView.setVisibility(View.VISIBLE);
     }
 }
