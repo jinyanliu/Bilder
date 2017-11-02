@@ -21,17 +21,13 @@ import se.sugarest.jane.bilder.ui.MainActivity;
  */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapterViewHolder> {
-
     private final static String LOG_TAG = PhotoAdapter.class.getSimpleName();
 
     /**
-     * An On-click handler that we've defined to make it easy for an Activity to interface with
-     * the RecyclerView
+     * An On-click handler to make it easy for MainActivity to interface with the RecyclerView
      */
     private final PhotoAdapterOnClickHandler mClickHandler;
-
     private MainActivity mainActivity;
-
     private ArrayList<String> mPhotoUrlStrings = new ArrayList<>();
 
     /**
@@ -68,16 +64,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         Context context = parent.getContext();
         int layoutIdForListItem = R.layout.list_view_photo;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
-
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
+        View view = inflater.inflate(layoutIdForListItem, parent, false);
         return new PhotoAdapterViewHolder(view);
     }
 
     /**
      * OnBindViewHolder is called by the RecyclerView to display the data at the specified
-     * position. In this method, update the contents of the ViewHolder to display the movie
-     * posters for each particular position, using the "position" argument that is conveniently
+     * position. In this method, update the contents of the ViewHolder to display the photos
+     * for each particular position, using the "position" argument that is conveniently
      * passed in.
      *
      * @param holder   The ViewHolder which should be updated to represent the
@@ -87,9 +81,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
     @Override
     public void onBindViewHolder(PhotoAdapterViewHolder holder, int position) {
         String currentPhoto = mPhotoUrlStrings.get(position);
-
         Log.i(LOG_TAG, "Picasso is loading picture: " + currentPhoto);
-
+        // Set photo using its url with Picasso Lib
+        // Reference: https://github.com/square/picasso
         Picasso.with(mainActivity)
                 .load(currentPhoto)
                 .placeholder(R.drawable.blackbg_picasso)
@@ -98,8 +92,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
     }
 
     /**
-     * This method simply returns the number of items to display.
-     *
      * @return The number of items available on the screen
      */
     @Override
@@ -115,7 +107,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         mPhotoUrlStrings.clear();
         mPhotoUrlStrings.addAll(photoUrls);
         notifyDataSetChanged();
-        Log.i(LOG_TAG, "Adapter Debug: notify data set change." + mPhotoUrlStrings.toString());
+        Log.i(LOG_TAG, "Notify data set change." + mPhotoUrlStrings.toString());
     }
 
     /**
