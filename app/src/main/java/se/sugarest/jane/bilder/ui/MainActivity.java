@@ -38,38 +38,17 @@ import static se.sugarest.jane.bilder.Constants.SEARCH_QUERY_URL_TEXT;
 
 public class MainActivity extends AppCompatActivity implements PhotoAdapter.PhotoAdapterOnClickHandler,
         LoaderManager.LoaderCallbacks<List<Photo>> {
-
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
-
     private EditText mEditText;
-
     private Button mButton;
-
     private PhotoAdapter mPhotoAdapter;
-
     private ProgressBar mProgressBar;
-
     private TextView mEmptyTextView;
-
     private Toast mToast;
-
     private Loader<List<Photo>> flickrSearchLoader;
-
     private String editTextString;
-
-    public PhotoAdapter getmPhotoAdapter() {
-        return mPhotoAdapter;
-    }
-
-    public ProgressBar getmProgressBar() {
-        return mProgressBar;
-    }
-
-    public TextView getmEmptyTextView() {
-        return mEmptyTextView;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,19 +62,21 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mEmptyTextView = (TextView) findViewById(R.id.tv_empty_result);
 
+        // Using Loader to make sure the search results will survive on configuration change.
         getSupportLoaderManager().initLoader(FLICKR_SEARCH_LOADER, null, this);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                mEditText.clearFocus();
                 makeFlickrSearchQuery();
-                Log.i(LOG_TAG, "Adapter Debug: Button Clicked.");
+                Log.i(LOG_TAG, "Search Button Clicked.");
             }
         });
     }
 
+    // Override onStart method here, so when user comes back to MainActivity from DetailActivity,
+    // it won't refresh the activity or restart loading photos. All the results survive.
     @Override
     protected void onStart() {
         super.onStart();
@@ -117,50 +98,50 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         }
     }
 
+    // A helper method here to decide that we initLoader or restartLoader.
     private void manageLoader() {
+        // Using buildUrl method from NetworkUtils to get the complete url we will use to query.
         URL photoRequestUrl = NetworkUtils.buildUrl(editTextString);
+        Log.i(LOG_TAG, "Complete url to query is: " + photoRequestUrl.toString());
         Bundle queryBundle = new Bundle();
         queryBundle.putString(SEARCH_QUERY_URL_TEXT, photoRequestUrl.toString());
-
-        Log.i(LOG_TAG, "Adapter Debug: complete url to request is: " + photoRequestUrl.toString());
 
         LoaderManager loaderManager = getSupportLoaderManager();
         flickrSearchLoader = loaderManager.getLoader(FLICKR_SEARCH_LOADER);
         if (flickrSearchLoader == null) {
             loaderManager.initLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
-            Log.i(LOG_TAG, "Adapter Debug: initLoader.");
+            Log.i(LOG_TAG, "InitLoader.");
         } else {
             loaderManager.restartLoader(FLICKR_SEARCH_LOADER, queryBundle, this);
-            Log.i(LOG_TAG, "Adapter Debug: restartLoader.");
+            Log.i(LOG_TAG, "RestartLoader.");
         }
     }
 
     private void hideKeyboard() {
-        // Check if no view has focus:
+        // Check if no view has focus
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-        Log.i(LOG_TAG, "Adapter Debug: Hide Key Board.");
-
+        Log.i(LOG_TAG, "Hide Key Board.");
     }
 
     private void setUpRecyclerViewWithAdapter() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_photos);
         final GridLayoutManager layoutManager
                 = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
-
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         if (mPhotoAdapter == null) {
             mPhotoAdapter = new PhotoAdapter(this, this);
-            Log.i(LOG_TAG, "Adapter Debug: create a new mPhotoAdapter.");
+            Log.i(LOG_TAG, "Create a new mPhotoAdapter.");
         }
         mRecyclerView.setAdapter(mPhotoAdapter);
-        Log.i(LOG_TAG, "Adapter Debug: set adapter to recyclerview");
+        Log.i(LOG_TAG, "Set adapter to recyclerview");
     }
 
+    // Click one photo, opens up DetailActivity with this photo full screen.
     @Override
     public void onClick(String photoUrl) {
         Context context = this;
@@ -191,12 +172,10 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
             @Override
             public List<Photo> loadInBackground() {
-
                 String searchQueryUrlString = args.getString(SEARCH_QUERY_URL_TEXT);
                 if (searchQueryUrlString == null || TextUtils.isEmpty(searchQueryUrlString)) {
                     return null;
                 }
-
                 try {
                     URL flickrUrl = new URL(searchQueryUrlString);
                     String jsonFlickrResponse = NetworkUtils
@@ -240,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
             }
             mPhotoAdapter.setPhotoData(photoUrlStrings);
-            Log.i(LOG_TAG, "Adapter Debug: set photo date to adapter.");
+            Log.i(LOG_TAG, "Set photo date to adapter.");
         }
     }
 
@@ -248,6 +227,10 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     public void onLoaderReset(Loader<List<Photo>> loader) {
     }
 
+    /**
+     * Use these 4 helper methods to take good care of the visibility of RecyclerView, ProgressBar,
+     * EmptyTextView and Toast. Because only one should be visible on the screen at one time.
+     */
     private void showRecyclerView() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
