@@ -208,10 +208,10 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             ArrayList<String> photoUrlStrings = new ArrayList<>();
             for (int i = 0; i < data.size(); i++) {
                 Photo currentPhoto = data.get(i);
-                int farm_id = currentPhoto.getPhotoFarm();
-                String server_id = currentPhoto.getPhotoServer();
-                String photo_id = currentPhoto.getPhotoId();
-                String secret = currentPhoto.getPhotoSecret();
+                int farm_id = currentPhoto.getFarm();
+                String server_id = currentPhoto.getServer();
+                String photo_id = currentPhoto.getId();
+                String secret = currentPhoto.getSecret();
                 String currentPhotoUrl = "https://farm" + String.valueOf(farm_id)
                         + ".staticflickr.com/" + server_id + "/" + photo_id + "_" + secret + "_" + PHOTO_SIZE_MAIN_ACTIVITY + ".jpg";
                 Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);

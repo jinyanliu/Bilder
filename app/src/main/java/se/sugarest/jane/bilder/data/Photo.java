@@ -6,77 +6,110 @@ package se.sugarest.jane.bilder.data;
 
 public class Photo {
 
-    private String photoId;
-    private String photoOwner;
-    private String photoSecret;
-    private String photoServer;
-    private int photoFarm;
-    private String photoTitle;
-    private int photoIsPublic;
-    private int photoIsFriend;
-    private int photoIsFamily;
+    private String id;
+    private String owner;
+    private String secret;
+    private String server;
+    private int farm;
+    private String title;
+    private int ispublic;
+    private int isfriend;
+    private int isfamily;
 
     public Photo(String photoId, String photoOwner, String photoSecret, String photoServer,
                  int photoFarm, String photoTitle, int photoIsPublic, int photoIsFriend, int photoIsFamily) {
-        this.photoId = photoId;
-        this.photoOwner = photoOwner;
-        this.photoSecret = photoSecret;
-        this.photoServer = photoServer;
-        this.photoFarm = photoFarm;
-        this.photoTitle = photoTitle;
-        this.photoIsPublic = photoIsPublic;
-        this.photoIsFriend = photoIsFriend;
-        this.photoIsFamily = photoIsFamily;
+        this.id = photoId;
+        this.owner = photoOwner;
+        this.secret = photoSecret;
+        this.server = photoServer;
+        this.farm = photoFarm;
+        this.title = photoTitle;
+        this.ispublic = photoIsPublic;
+        this.isfriend = photoIsFriend;
+        this.isfamily = photoIsFamily;
     }
 
-    public String getPhotoId() {
-        return photoId;
+    public String getId() {
+        return id;
     }
 
-    public String getPhotoOwner() {
-        return photoOwner;
+    public String getOwner() {
+        return owner;
     }
 
-    public String getPhotoSecret() {
-        return photoSecret;
+    public String getSecret() {
+        return secret;
     }
 
-    public String getPhotoServer() {
-        return photoServer;
+    public String getServer() {
+        return server;
     }
 
-    public int getPhotoFarm() {
-        return photoFarm;
+    public int getFarm() {
+        return farm;
     }
 
-    public String getPhotoTitle() {
-        return photoTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public int getPhotoIsPublic() {
-        return photoIsPublic;
+    public int getIspublic() {
+        return ispublic;
     }
 
-    public int getPhotoIsFriend() {
-        return photoIsFriend;
+    public int getIsfriend() {
+        return isfriend;
     }
 
-    public int getPhotoIsFamily() {
-        return photoIsFamily;
+    public int getIsfamily() {
+        return isfamily;
     }
 
     @Override
     public String toString() {
         return "Photo{" +
-                "photoId='" + photoId + '\'' +
-                ", photoOwner='" + photoOwner + '\'' +
-                ", photoSecret='" + photoSecret + '\'' +
-                ", photoServer='" + photoServer + '\'' +
-                ", photoFarm=" + photoFarm +
-                ", photoTitle='" + photoTitle + '\'' +
-                ", photoIsPublic=" + photoIsPublic +
-                ", photoIsFriend=" + photoIsFriend +
-                ", photoIsFamily=" + photoIsFamily +
+                "id='" + id + '\'' +
+                ", owner='" + owner + '\'' +
+                ", secret='" + secret + '\'' +
+                ", server='" + server + '\'' +
+                ", farm=" + farm +
+                ", title='" + title + '\'' +
+                ", ispublic=" + ispublic +
+                ", isfriend=" + isfriend +
+                ", isfamily=" + isfamily +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Photo photo = (Photo) o;
+
+        if (farm != photo.farm) return false;
+        if (ispublic != photo.ispublic) return false;
+        if (isfriend != photo.isfriend) return false;
+        if (isfamily != photo.isfamily) return false;
+        if (!id.equals(photo.id)) return false;
+        if (!owner.equals(photo.owner)) return false;
+        if (!secret.equals(photo.secret)) return false;
+        if (!server.equals(photo.server)) return false;
+        return title.equals(photo.title);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + owner.hashCode();
+        result = 31 * result + secret.hashCode();
+        result = 31 * result + server.hashCode();
+        result = 31 * result + farm;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + ispublic;
+        result = 31 * result + isfriend;
+        result = 31 * result + isfamily;
+        return result;
+    }
 }
+
