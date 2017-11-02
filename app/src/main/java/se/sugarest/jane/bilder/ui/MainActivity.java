@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import se.sugarest.jane.bilder.Photo;
-import se.sugarest.jane.bilder.PhotoAdapter;
 import se.sugarest.jane.bilder.R;
+import se.sugarest.jane.bilder.data.Photo;
+import se.sugarest.jane.bilder.data.PhotoAdapter;
 import se.sugarest.jane.bilder.utilities.FlickrJsonUtils;
 import se.sugarest.jane.bilder.utilities.NetworkUtils;
 

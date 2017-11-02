@@ -1,4 +1,4 @@
-package se.sugarest.jane.bilder;
+package se.sugarest.jane.bilder.data;
 
 /**
  * Created by jane on 17-10-31.

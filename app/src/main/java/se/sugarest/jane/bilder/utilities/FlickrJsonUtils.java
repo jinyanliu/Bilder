@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.sugarest.jane.bilder.Photo;
+import se.sugarest.jane.bilder.data.Photo;
 
 /**
  * Utility functions to handle FlickrAPI JSON data.

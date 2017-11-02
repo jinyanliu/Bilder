@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import se.sugarest.jane.bilder.data.Photo;
 import se.sugarest.jane.bilder.ui.MainActivity;
 import se.sugarest.jane.bilder.utilities.FlickrJsonUtils;
 import se.sugarest.jane.bilder.utilities.NetworkUtils;

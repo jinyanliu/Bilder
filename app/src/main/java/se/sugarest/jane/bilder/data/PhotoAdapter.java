@@ -1,4 +1,4 @@
-package se.sugarest.jane.bilder;
+package se.sugarest.jane.bilder.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import se.sugarest.jane.bilder.R;
 import se.sugarest.jane.bilder.ui.MainActivity;
 
 /**
