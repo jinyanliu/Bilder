@@ -25,13 +25,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import se.sugarest.jane.bilder.api.FlickrClient;
 import se.sugarest.jane.bilder.R;
+import se.sugarest.jane.bilder.api.FlickrClient;
 import se.sugarest.jane.bilder.data.JSONResponse;
 import se.sugarest.jane.bilder.data.Photo;
 import se.sugarest.jane.bilder.data.PhotoAdapter;
 
 import static se.sugarest.jane.bilder.Constants.API_KEY;
+import static se.sugarest.jane.bilder.Constants.CONFIGURATION_KEY;
 import static se.sugarest.jane.bilder.Constants.FLICKR_BASE_URL_RETROFIT;
 import static se.sugarest.jane.bilder.Constants.FORMAT;
 import static se.sugarest.jane.bilder.Constants.INTENT_EXTRA_TITLE;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     private ProgressBar mProgressBar;
     private TextView mEmptyTextView;
     private Toast mToast;
-    private String editTextString;
+    private String mEditTextString;
+    ArrayList<String> mPhotoUrlStrings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,23 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
         setUpRecyclerViewWithAdapter();
         setUpSearchButtonClick();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(CONFIGURATION_KEY)) {
+            mPhotoUrlStrings = savedInstanceState.getStringArrayList(CONFIGURATION_KEY);
+            mPhotoAdapter.setPhotoData(mPhotoUrlStrings);
+        }
+    }
+
+    /**
+     * Override onSaveInstanceState, so the photos search results will survive while configuration
+     * change.
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mPhotoUrlStrings != null && mPhotoUrlStrings.size() > 0) {
+            outState.putStringArrayList(CONFIGURATION_KEY, mPhotoUrlStrings);
+        }
     }
 
     private void setUpSearchButtonClick() {
@@ -79,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
     private void makeFlickrSearchQuery() {
         showLoadingIndicator();
-        editTextString = mEditText.getText().toString();
-        if (editTextString.trim().isEmpty()) {
+        mEditTextString = mEditText.getText().toString();
+        if (mEditTextString.trim().isEmpty()) {
             showToast();
             if (mToast != null) {
                 mToast.cancel();
@@ -107,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
         Retrofit retrofit = builder.client(httpClient.build()).build();
         FlickrClient client = retrofit.create(FlickrClient.class);
-        Call<JSONResponse> call = client.jsonForKey(METHOD, API_KEY, editTextString, PER_PAGE, FORMAT, NOJSONCALLBACK);
+        Call<JSONResponse> call = client.jsonForKey(METHOD, API_KEY, mEditTextString, PER_PAGE, FORMAT, NOJSONCALLBACK);
 
         call.enqueue(new Callback<JSONResponse>() {
             @Override
@@ -133,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
     private void setPhotoListDataToRecyclerView(List<Photo> photoLists) {
         showRecyclerView();
-        ArrayList<String> photoUrlStrings = new ArrayList<>();
+        mPhotoUrlStrings = new ArrayList<>();
         for (int i = 0; i < photoLists.size(); i++) {
             Photo currentPhoto = photoLists.get(i);
             int farm_id = currentPhoto.getFarm();
@@ -143,9 +162,9 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             String currentPhotoUrl = "https://farm" + String.valueOf(farm_id)
                     + ".staticflickr.com/" + server_id + "/" + photo_id + "_" + secret + "_" + PHOTO_SIZE_MAIN_ACTIVITY + ".jpg";
             Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);
-            photoUrlStrings.add(currentPhotoUrl);
+            mPhotoUrlStrings.add(currentPhotoUrl);
         }
-        mPhotoAdapter.setPhotoData(photoUrlStrings);
+        mPhotoAdapter.setPhotoData(mPhotoUrlStrings);
         Log.i(LOG_TAG, "Set photo date to adapter.");
     }
 

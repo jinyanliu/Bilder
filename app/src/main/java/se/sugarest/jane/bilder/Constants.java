@@ -31,4 +31,7 @@ public class Constants {
 
     // The intent extra title passing between MainActivity and DetailActivity.
     public static final String INTENT_EXTRA_TITLE = "photoUrl";
+
+    // Use to save photos results on configuration change on main screen.
+    public static final String CONFIGURATION_KEY = "photos_list";
 }
