@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ImageView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 
 import se.sugarest.jane.bilder.R;
@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private final static String LOG_TAG = DetailActivity.class.getSimpleName();
 
-    ImageView mPhotoView;
+    PhotoView mPhotoView;
 
     String mCurrentPhotoUrl;
 
@@ -32,7 +32,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        mPhotoView = (ImageView) findViewById(R.id.iv_full_size_photo);
+        mPhotoView = (PhotoView) findViewById(R.id.iv_full_size_photo);
 
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity != null) {
