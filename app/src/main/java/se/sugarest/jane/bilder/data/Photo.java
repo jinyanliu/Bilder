@@ -7,21 +7,13 @@ package se.sugarest.jane.bilder.data;
 public class Photo {
 
     private String photoId;
-
     private String photoOwner;
-
     private String photoSecret;
-
     private String photoServer;
-
     private int photoFarm;
-
     private String photoTitle;
-
     private int photoIsPublic;
-
     private int photoIsFriend;
-
     private int photoIsFamily;
 
     public Photo(String photoId, String photoOwner, String photoSecret, String photoServer,
