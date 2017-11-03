@@ -151,6 +151,13 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     }
 
     private void setPhotoListDataToRecyclerView(List<Photo> photoLists) {
+        getPhotoUrlArrayList(photoLists);
+        showRecyclerView();
+        mPhotoAdapter.setPhotoData(mPhotoUrlStrings);
+        Log.i(LOG_TAG, "Set photo date to adapter.");
+    }
+
+    private void getPhotoUrlArrayList(List<Photo> photoLists) {
         mPhotoUrlStrings = new ArrayList<>();
         for (int i = 0; i < photoLists.size(); i++) {
             Photo currentPhoto = photoLists.get(i);
@@ -163,9 +170,6 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);
             mPhotoUrlStrings.add(currentPhotoUrl);
         }
-        showRecyclerView();
-        mPhotoAdapter.setPhotoData(mPhotoUrlStrings);
-        Log.i(LOG_TAG, "Set photo date to adapter.");
     }
 
     private void hideKeyboard() {
