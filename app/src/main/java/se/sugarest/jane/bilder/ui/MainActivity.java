@@ -40,6 +40,11 @@ import static se.sugarest.jane.bilder.Constants.METHOD;
 import static se.sugarest.jane.bilder.Constants.NOJSONCALLBACK;
 import static se.sugarest.jane.bilder.Constants.PER_PAGE;
 import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
+import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_FARM_PART_ONE;
+import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_PHOTO_TYPE_LAST_PART;
+import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_SLASH;
+import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_STATIC_FLICKR_PART_TWO;
+import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_UNDER_SCORE;
 
 public class MainActivity extends AppCompatActivity implements PhotoAdapter.PhotoAdapterOnClickHandler {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -165,8 +170,10 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             String server_id = currentPhoto.getServer();
             String photo_id = currentPhoto.getId();
             String secret = currentPhoto.getSecret();
-            String currentPhotoUrl = "https://farm" + String.valueOf(farm_id)
-                    + ".staticflickr.com/" + server_id + "/" + photo_id + "_" + secret + "_" + PHOTO_SIZE_MAIN_ACTIVITY + ".jpg";
+            String currentPhotoUrl = SINGLE_PHOTO_URL_FARM_PART_ONE + String.valueOf(farm_id)
+                    + SINGLE_PHOTO_URL_STATIC_FLICKR_PART_TWO + server_id + SINGLE_PHOTO_URL_SLASH
+                    + photo_id + SINGLE_PHOTO_URL_UNDER_SCORE + secret + SINGLE_PHOTO_URL_UNDER_SCORE
+                    + PHOTO_SIZE_MAIN_ACTIVITY + SINGLE_PHOTO_URL_PHOTO_TYPE_LAST_PART;
             Log.i(LOG_TAG, "CurrentPhotoUrl = " + currentPhotoUrl);
             mPhotoUrlStrings.add(currentPhotoUrl);
         }

@@ -16,15 +16,18 @@ import java.util.ArrayList;
 import se.sugarest.jane.bilder.R;
 
 /**
+ * This class gets a list of photo urls from inputs, retrieves the corresponding photos and then
+ * populates to related views, via Picasso.
+ * <p>
+ * That means the controller in the MVC pattern.
+ * <p>
  * Created by jane on 17-10-31.
  */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapterViewHolder> {
     private final static String LOG_TAG = PhotoAdapter.class.getSimpleName();
 
-    /**
-     * An On-click handler to make it easy for MainActivity to interface with the RecyclerView
-     */
+    // An On-click handler to make it easy for MainActivity to interface with the RecyclerView
     private final PhotoAdapterOnClickHandler mClickHandler;
     private Context mContext;
     private ArrayList<String> mPhotoUrlStrings = new ArrayList<>();
@@ -34,16 +37,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
      *
      * @param clickHandler The on-click handler for this adapter. This single handler is called
      *                     when an item is clicked.
-     * @param context The context to pass down for {@link Picasso}.with(context)...
+     * @param context      The context to pass down for {@link Picasso}.with(context)...
      */
     public PhotoAdapter(PhotoAdapterOnClickHandler clickHandler, Context context) {
         mClickHandler = clickHandler;
         this.mContext = context;
     }
 
-    /**
-     * The interface that receives onClick messages.
-     */
+    // The interface that receives onClick messages.
     public interface PhotoAdapterOnClickHandler {
         void onClick(String photoUrl);
 
@@ -99,9 +100,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         return mPhotoUrlStrings.size();
     }
 
-    /**
-     * This method is used to set the photos on a PhotoAdapter.
-     */
+    // This method is used to set the photos on a PhotoAdapter.
     public void setPhotoData(ArrayList<String> photoUrls) {
         mPhotoUrlStrings.clear();
         mPhotoUrlStrings.addAll(photoUrls);
@@ -109,9 +108,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         Log.i(LOG_TAG, "Notify data set change." + mPhotoUrlStrings.toString());
     }
 
-    /**
-     * Cache of the children views for a photo image.
-     */
+    // Cache of the children views for a photo image.
     public class PhotoAdapterViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         public final ImageView mPhotoImageView;

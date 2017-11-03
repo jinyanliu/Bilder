@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Photo {
-
     @SerializedName("id")
     @Expose
     private String id;
@@ -103,52 +102,5 @@ public class Photo {
 
     public void setIsfamily(Integer isfamily) {
         this.isfamily = isfamily;
-    }
-
-    @Override
-    public String toString() {
-        return "Photo{" +
-                "id='" + id + '\'' +
-                ", owner='" + owner + '\'' +
-                ", secret='" + secret + '\'' +
-                ", server='" + server + '\'' +
-                ", farm=" + farm +
-                ", title='" + title + '\'' +
-                ", ispublic=" + ispublic +
-                ", isfriend=" + isfriend +
-                ", isfamily=" + isfamily +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Photo photo = (Photo) o;
-
-        if (!id.equals(photo.id)) return false;
-        if (!owner.equals(photo.owner)) return false;
-        if (!secret.equals(photo.secret)) return false;
-        if (!server.equals(photo.server)) return false;
-        if (!farm.equals(photo.farm)) return false;
-        if (!title.equals(photo.title)) return false;
-        if (!ispublic.equals(photo.ispublic)) return false;
-        if (!isfriend.equals(photo.isfriend)) return false;
-        return isfamily.equals(photo.isfamily);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + owner.hashCode();
-        result = 31 * result + secret.hashCode();
-        result = 31 * result + server.hashCode();
-        result = 31 * result + farm.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + ispublic.hashCode();
-        result = 31 * result + isfriend.hashCode();
-        result = 31 * result + isfamily.hashCode();
-        return result;
     }
 }

@@ -8,7 +8,7 @@ public class Constants {
     public static final String FLICKR_BASE_URL_RETROFIT = "https://api.flickr.com/";
 
     // Query Parameters and Values.
-    // Value of PARAM_TEXT, is user put from EditText on MainActivity.
+    // The value of PARAM_TEXT is user's input from EditText on MainActivity.
     public static final String PARAM_METHOD = "method";
     public static final String METHOD = "flickr.photos.search";
 
@@ -32,6 +32,15 @@ public class Constants {
     // The intent extra title passing between MainActivity and DetailActivity.
     public static final String INTENT_EXTRA_TITLE = "photoUrl";
 
-    // Use to save photos results on configuration change on main screen.
+    // Use with onSaveInstanceState method in MainActivity to save photos results on configuration
+    // change on main screen.
     public static final String CONFIGURATION_KEY = "photos_list";
+
+    // All the constants to create a single photo's url using this photo's farm, id, server
+    // and secret information.
+    public static final String SINGLE_PHOTO_URL_FARM_PART_ONE = "https://farm";
+    public static final String SINGLE_PHOTO_URL_STATIC_FLICKR_PART_TWO = ".staticflickr.com/";
+    public static final String SINGLE_PHOTO_URL_SLASH = "/";
+    public static final String SINGLE_PHOTO_URL_UNDER_SCORE = "_";
+    public static final String SINGLE_PHOTO_URL_PHOTO_TYPE_LAST_PART = ".jpg";
 }

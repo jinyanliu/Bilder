@@ -20,7 +20,6 @@ import se.sugarest.jane.bilder.data.PhotoAdapter;
 
 @RunWith(AndroidJUnit4.class)
 public class PhotoAdapterAndroidTest {
-
     private Context instrumentationCtx;
     private PhotoAdapter photoAdapter;
     private ArrayList<String> photoUrlStrings = new ArrayList<>();

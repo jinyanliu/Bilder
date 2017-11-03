@@ -65,6 +65,5 @@
             android:background="@color/colorPrimary"
             android:text="@string/button_text_search"
             android:textColor="@android:color/white" />
-
     </LinearLayout>
 </LinearLayout>

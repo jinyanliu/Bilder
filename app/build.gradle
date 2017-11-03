@@ -25,8 +25,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // RecyclerView
     compile 'com.android.support:recyclerview-v7:25.4.0'
+    // Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
+    // PhotoView
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     // Retrofit & OkHttp
     compile 'com.squareup.retrofit2:retrofit:2.3.0'

@@ -25,7 +25,7 @@ public class DetailActivity extends AppCompatActivity {
     private final static String LOG_TAG = DetailActivity.class.getSimpleName();
 
     /**
-     * External Lib: PhotoView
+     * Use external lib PhotoView to implement photo on touch zoom in and zoom out.
      * Reference: https://github.com/chrisbanes/PhotoView
      */
     PhotoView mPhotoView;
@@ -66,6 +66,10 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Use these 2 helper methods to take good care of the visibility of ProgressBar and PhotoView.
+     * Because only one should be visible on the screen at one time.
+     */
     private void showLoadingIndicator() {
         mProgressBar.setVisibility(View.VISIBLE);
         mPhotoView.setVisibility(View.INVISIBLE);
