@@ -137,8 +137,9 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         call.enqueue(new Callback<JSONResponse>() {
             @Override
             public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
-                Log.i(LOG_TAG, "Complete url to request is: " + response.raw().request().url().toString());
-                Log.i(LOG_TAG, "response.body().toString == " + response.body().toString());
+                Log.i(LOG_TAG, "GET response success: Complete url to request is: "
+                        + response.raw().request().url().toString()
+                        + "\nresponse.body().toString == " + response.body().toString());
                 // Get the list of photos from response.
                 List<Photo> photoLists = response.body().getPhotos().getPhoto();
                 if (photoLists != null && !photoLists.isEmpty()) {
@@ -150,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
             @Override
             public void onFailure(Call<JSONResponse> call, Throwable t) {
+                Log.i(LOG_TAG, "GET response failure.");
                 showEmptyView();
-                Log.i(LOG_TAG, "No Photo data comes back.");
             }
         });
     }
