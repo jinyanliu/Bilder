@@ -23,7 +23,6 @@ import se.sugarest.jane.bilder.R;
  * <p>
  * Created by jane on 17-10-31.
  */
-
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapterViewHolder> {
     private final static String LOG_TAG = PhotoAdapter.class.getSimpleName();
 
@@ -44,7 +43,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         this.mContext = context;
     }
 
-    // The interface that receives onClick messages.
+    /**
+     * The interface that receives onClick messages.
+     */
     public interface PhotoAdapterOnClickHandler {
         void onClick(String photoUrl);
 
@@ -100,7 +101,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         return mPhotoUrlStrings.size();
     }
 
-    // This method is used to set the photos on a PhotoAdapter.
+    /**
+     * This method is used to set the photos on a PhotoAdapter.
+     */
     public void setPhotoData(ArrayList<String> photoUrls) {
         mPhotoUrlStrings.clear();
         mPhotoUrlStrings.addAll(photoUrls);
@@ -108,7 +111,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         Log.i(LOG_TAG, "Notify data set change." + mPhotoUrlStrings.toString());
     }
 
-    // Cache of the children views for a photo image.
+    /**
+     * Cache of the children views for a photo image.
+     */
     public class PhotoAdapterViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         public final ImageView mPhotoImageView;

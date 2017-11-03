@@ -1,9 +1,8 @@
-package se.sugarest.jane.bilder;
+package se.sugarest.jane.bilder.util;
 
 /**
  * Created by jane on 17-10-31.
  */
-
 public class Constants {
     public static final String FLICKR_BASE_URL_RETROFIT = "https://api.flickr.com/";
 
@@ -38,6 +37,7 @@ public class Constants {
 
     // All the constants to create a single photo's url using this photo's farm, id, server
     // and secret information.
+    // Example: https://farm5.staticflickr.com/4551/24280694778_a7ca496a79_n.jpg
     public static final String SINGLE_PHOTO_URL_FARM_PART_ONE = "https://farm";
     public static final String SINGLE_PHOTO_URL_STATIC_FLICKR_PART_TWO = ".staticflickr.com/";
     public static final String SINGLE_PHOTO_URL_SLASH = "/";

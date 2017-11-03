@@ -5,19 +5,19 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import se.sugarest.jane.bilder.data.types.JSONResponse;
 
-import static se.sugarest.jane.bilder.Constants.PARAM_API_KEY;
-import static se.sugarest.jane.bilder.Constants.PARAM_FORMAT;
-import static se.sugarest.jane.bilder.Constants.PARAM_METHOD;
-import static se.sugarest.jane.bilder.Constants.PARAM_NOJSONCALLBACK;
-import static se.sugarest.jane.bilder.Constants.PARAM_PER_PAGE;
-import static se.sugarest.jane.bilder.Constants.PARAM_TEXT;
+import static se.sugarest.jane.bilder.util.Constants.PARAM_API_KEY;
+import static se.sugarest.jane.bilder.util.Constants.PARAM_FORMAT;
+import static se.sugarest.jane.bilder.util.Constants.PARAM_METHOD;
+import static se.sugarest.jane.bilder.util.Constants.PARAM_NOJSONCALLBACK;
+import static se.sugarest.jane.bilder.util.Constants.PARAM_PER_PAGE;
+import static se.sugarest.jane.bilder.util.Constants.PARAM_TEXT;
 
 /**
  * This interface will be used in MainActivity with external lib Retrofit.
  * Reference: https://github.com/square/retrofit
+ * <p>
  * Created by jane on 17-11-2.
  */
-
 public interface FlickrClient {
     @GET("/services/rest/")
     Call<JSONResponse> jsonForKey(

@@ -13,24 +13,23 @@ import com.squareup.picasso.Picasso;
 
 import se.sugarest.jane.bilder.R;
 
-import static se.sugarest.jane.bilder.Constants.INTENT_EXTRA_TITLE;
-import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_DETAIL_ACTIVITY;
-import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
+import static se.sugarest.jane.bilder.util.Constants.INTENT_EXTRA_TITLE;
+import static se.sugarest.jane.bilder.util.Constants.PHOTO_SIZE_DETAIL_ACTIVITY;
+import static se.sugarest.jane.bilder.util.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
 
 /**
+ * This class handles the requests towards a single photo, e.g., rendering, zoom in and zoom out.
+ * <p>
  * Created by jane on 17-10-31.
  */
-
 public class DetailActivity extends AppCompatActivity {
     private final static String LOG_TAG = DetailActivity.class.getSimpleName();
 
-    /**
-     * Use external lib PhotoView to implement photo on touch zoom in and zoom out.
-     * Reference: https://github.com/chrisbanes/PhotoView
-     */
-    PhotoView mPhotoView;
-    String mCurrentPhotoUrl;
-    ProgressBar mProgressBar;
+    // Use external lib PhotoView to implement photo on touch zoom in and zoom out.
+    // Reference: https://github.com/chrisbanes/PhotoView
+    private PhotoView mPhotoView;
+    private String mCurrentPhotoUrl;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,40 +40,40 @@ public class DetailActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         showLoadingIndicator();
-
         Intent intentThatStartedThisActivity = getIntent();
-        if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(INTENT_EXTRA_TITLE)) {
-                mCurrentPhotoUrl = getIntent().getExtras().getString(INTENT_EXTRA_TITLE);
-                mCurrentPhotoUrl = mCurrentPhotoUrl.replace("_" + PHOTO_SIZE_MAIN_ACTIVITY,
-                        "_" + PHOTO_SIZE_DETAIL_ACTIVITY);
-                Log.i(LOG_TAG, "Current Photo url is: " + mCurrentPhotoUrl);
-
-                showPhotoView();
-                // Set photo using its url with Picasso Lib
-                // Reference: https://github.com/square/picasso
-                Picasso.with(this)
-                        .load(mCurrentPhotoUrl)
-                        .placeholder(R.drawable.blackbg_picasso)
-                        .error(R.drawable.blackbg_picasso)
-                        .into(mPhotoView);
-            } else {
-                Log.e(LOG_TAG, "Missing intent extra value associated with extra title: " + INTENT_EXTRA_TITLE);
-            }
-        } else {
+        if (intentThatStartedThisActivity == null) {
             Log.e(LOG_TAG, "Missing intent.");
+            return;
         }
+        if (!intentThatStartedThisActivity.hasExtra(INTENT_EXTRA_TITLE)) {
+            Log.e(LOG_TAG, "Missing intent extra value associated with extra title: " + INTENT_EXTRA_TITLE);
+            return;
+        }
+        setUpPhoto();
     }
 
-    /**
-     * Use these 2 helper methods to take good care of the visibility of ProgressBar and PhotoView.
-     * Because only one should be visible on the screen at one time.
-     */
+    private void setUpPhoto() {
+        mCurrentPhotoUrl = getIntent().getExtras().getString(INTENT_EXTRA_TITLE);
+        mCurrentPhotoUrl = mCurrentPhotoUrl.replace("_" + PHOTO_SIZE_MAIN_ACTIVITY,
+                "_" + PHOTO_SIZE_DETAIL_ACTIVITY);
+        Log.i(LOG_TAG, "Current Photo url is: " + mCurrentPhotoUrl);
+        showPhotoView();
+        // Set photo using its url with Picasso Lib
+        // Reference: https://github.com/square/picasso
+        Picasso.with(this)
+                .load(mCurrentPhotoUrl)
+                .placeholder(R.drawable.blackbg_picasso)
+                .error(R.drawable.blackbg_picasso)
+                .into(mPhotoView);
+    }
+
+    // Used while loading data
     private void showLoadingIndicator() {
         mProgressBar.setVisibility(View.VISIBLE);
         mPhotoView.setVisibility(View.INVISIBLE);
     }
 
+    // Used while data is loaded
     private void showPhotoView() {
         mProgressBar.setVisibility(View.INVISIBLE);
         mPhotoView.setVisibility(View.VISIBLE);

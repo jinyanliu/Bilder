@@ -31,21 +31,25 @@ import se.sugarest.jane.bilder.data.types.JSONResponse;
 import se.sugarest.jane.bilder.data.types.Photo;
 import se.sugarest.jane.bilder.data.PhotoAdapter;
 
-import static se.sugarest.jane.bilder.Constants.API_KEY;
-import static se.sugarest.jane.bilder.Constants.CONFIGURATION_KEY;
-import static se.sugarest.jane.bilder.Constants.FLICKR_BASE_URL_RETROFIT;
-import static se.sugarest.jane.bilder.Constants.FORMAT;
-import static se.sugarest.jane.bilder.Constants.INTENT_EXTRA_TITLE;
-import static se.sugarest.jane.bilder.Constants.METHOD;
-import static se.sugarest.jane.bilder.Constants.NOJSONCALLBACK;
-import static se.sugarest.jane.bilder.Constants.PER_PAGE;
-import static se.sugarest.jane.bilder.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
-import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_FARM_PART_ONE;
-import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_PHOTO_TYPE_LAST_PART;
-import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_SLASH;
-import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_STATIC_FLICKR_PART_TWO;
-import static se.sugarest.jane.bilder.Constants.SINGLE_PHOTO_URL_UNDER_SCORE;
+import static se.sugarest.jane.bilder.util.Constants.API_KEY;
+import static se.sugarest.jane.bilder.util.Constants.CONFIGURATION_KEY;
+import static se.sugarest.jane.bilder.util.Constants.FLICKR_BASE_URL_RETROFIT;
+import static se.sugarest.jane.bilder.util.Constants.FORMAT;
+import static se.sugarest.jane.bilder.util.Constants.INTENT_EXTRA_TITLE;
+import static se.sugarest.jane.bilder.util.Constants.METHOD;
+import static se.sugarest.jane.bilder.util.Constants.NOJSONCALLBACK;
+import static se.sugarest.jane.bilder.util.Constants.PER_PAGE;
+import static se.sugarest.jane.bilder.util.Constants.PHOTO_SIZE_MAIN_ACTIVITY;
+import static se.sugarest.jane.bilder.util.Constants.SINGLE_PHOTO_URL_FARM_PART_ONE;
+import static se.sugarest.jane.bilder.util.Constants.SINGLE_PHOTO_URL_PHOTO_TYPE_LAST_PART;
+import static se.sugarest.jane.bilder.util.Constants.SINGLE_PHOTO_URL_SLASH;
+import static se.sugarest.jane.bilder.util.Constants.SINGLE_PHOTO_URL_STATIC_FLICKR_PART_TWO;
+import static se.sugarest.jane.bilder.util.Constants.SINGLE_PHOTO_URL_UNDER_SCORE;
 
+/**
+ * This is the main controller of the whole app.
+ * It initiates the app and switches between activities, e.g., MainActivity itself and DetailActivity.
+ */
 public class MainActivity extends AppCompatActivity implements PhotoAdapter.PhotoAdapterOnClickHandler {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -117,11 +121,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         }
     }
 
-    /**
-     * Use External Library Retrofit to GET photos list,
-     * according to user input key word as a parameter.
-     * Reference: https://github.com/square/retrofit
-     */
+    // Use External Library Retrofit to GET photos list, according to user input key word as a parameter.
+    // Reference: https://github.com/square/retrofit
     private void setUpRetrofitGet() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder =
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
                 Log.i(LOG_TAG, "response.body().toString == " + response.body().toString());
                 // Get the list of photos from response.
                 List<Photo> photoLists = response.body().getPhotos().getPhoto();
-                if (photoLists != null && photoLists.size() > 0) {
+                if (photoLists != null && !photoLists.isEmpty()) {
                     setPhotoListDataToRecyclerView(photoLists);
                 } else {
                     showEmptyView();
@@ -203,7 +204,9 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         Log.i(LOG_TAG, "Set adapter to recyclerview");
     }
 
-    // Click one photo, opens up DetailActivity with this photo full screen.
+    /**
+     * Click one photo, opens up DetailActivity with this photo full screen.
+     */
     @Override
     public void onClick(String photoUrl) {
         Context context = this;
@@ -213,28 +216,28 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
         startActivity(intentToStartDetailActivity);
     }
 
-    /**
-     * Use these 4 helper methods to take good care of the visibility of RecyclerView, ProgressBar,
-     * EmptyTextView and Toast. Because only one should be visible on the screen at one time.
-     */
+    // Used while data is loaded
     private void showRecyclerView() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mEmptyTextView.setVisibility(View.INVISIBLE);
     }
 
+    // Used while there is no data returned
     private void showEmptyView() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mEmptyTextView.setVisibility(View.VISIBLE);
     }
 
+    // Used while loading data
     private void showLoadingIndicator() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
         mEmptyTextView.setVisibility(View.INVISIBLE);
     }
 
+    // Used while input is invalid, e.g., empty string
     private void showToast() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
