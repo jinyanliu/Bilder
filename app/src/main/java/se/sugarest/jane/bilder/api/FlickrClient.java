@@ -5,6 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import se.sugarest.jane.bilder.data.types.JSONResponse;
 
+import static se.sugarest.jane.bilder.util.Constants.FLICKR_ENDPOINT_GET_RETROFIT;
 import static se.sugarest.jane.bilder.util.Constants.PARAM_API_KEY;
 import static se.sugarest.jane.bilder.util.Constants.PARAM_FORMAT;
 import static se.sugarest.jane.bilder.util.Constants.PARAM_METHOD;
@@ -19,7 +20,7 @@ import static se.sugarest.jane.bilder.util.Constants.PARAM_TEXT;
  * Created by jane on 17-11-2.
  */
 public interface FlickrClient {
-    @GET("/services/rest/")
+    @GET(FLICKR_ENDPOINT_GET_RETROFIT)
     Call<JSONResponse> jsonForKey(
             @Query(PARAM_METHOD) String method,
             @Query(PARAM_API_KEY) String api_key,

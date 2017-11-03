@@ -5,6 +5,7 @@ package se.sugarest.jane.bilder.util;
  */
 public class Constants {
     public static final String FLICKR_BASE_URL_RETROFIT = "https://api.flickr.com/";
+    public static final String FLICKR_ENDPOINT_GET_RETROFIT = "/services/rest/";
 
     // Query Parameters and Values.
     // The value of PARAM_TEXT is user's input from EditText on MainActivity.
