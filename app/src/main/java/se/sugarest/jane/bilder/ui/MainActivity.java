@@ -117,13 +117,13 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             mToast.setGravity(Gravity.BOTTOM, 0, 0);
             mToast.show();
         } else {
-            setUpRetrofitGet();
+            sendNetworkRequestGet();
         }
     }
 
     // Use External Library Retrofit to GET photos list, according to user input key word as a parameter.
     // Reference: https://github.com/square/retrofit
-    private void setUpRetrofitGet() {
+    private void sendNetworkRequestGet() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder =
                 new Retrofit.Builder()
