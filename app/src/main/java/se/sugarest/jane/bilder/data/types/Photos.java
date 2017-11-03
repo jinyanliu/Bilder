@@ -1,4 +1,4 @@
-package se.sugarest.jane.bilder.data;
+package se.sugarest.jane.bilder.data.types;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Photos {
-
     @SerializedName("page")
     @Expose
     private Integer page;

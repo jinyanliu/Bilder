@@ -3,7 +3,7 @@ package se.sugarest.jane.bilder.api;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import se.sugarest.jane.bilder.data.JSONResponse;
+import se.sugarest.jane.bilder.data.types.JSONResponse;
 
 import static se.sugarest.jane.bilder.Constants.PARAM_API_KEY;
 import static se.sugarest.jane.bilder.Constants.PARAM_FORMAT;
@@ -13,7 +13,8 @@ import static se.sugarest.jane.bilder.Constants.PARAM_PER_PAGE;
 import static se.sugarest.jane.bilder.Constants.PARAM_TEXT;
 
 /**
- * This interface will be used in MainActivity with Retrofit.
+ * This interface will be used in MainActivity with external lib Retrofit.
+ * Reference: https://github.com/square/retrofit
  * Created by jane on 17-11-2.
  */
 

@@ -27,8 +27,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import se.sugarest.jane.bilder.R;
 import se.sugarest.jane.bilder.api.FlickrClient;
-import se.sugarest.jane.bilder.data.JSONResponse;
-import se.sugarest.jane.bilder.data.Photo;
+import se.sugarest.jane.bilder.data.types.JSONResponse;
+import se.sugarest.jane.bilder.data.types.Photo;
 import se.sugarest.jane.bilder.data.PhotoAdapter;
 
 import static se.sugarest.jane.bilder.Constants.API_KEY;

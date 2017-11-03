@@ -1,10 +1,12 @@
-package se.sugarest.jane.bilder.data;
+package se.sugarest.jane.bilder.data.types;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * It is the outermost JSONResponse from FlickrApi.
+ */
 public class JSONResponse {
-
     @SerializedName("photos")
     @Expose
     private Photos photos;
