@@ -13,6 +13,7 @@ import static se.sugarest.jane.bilder.Constants.PARAM_PER_PAGE;
 import static se.sugarest.jane.bilder.Constants.PARAM_TEXT;
 
 /**
+ * This interface will be used in MainActivity with Retrofit.
  * Created by jane on 17-11-2.
  */
 
