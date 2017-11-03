@@ -14,7 +14,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import se.sugarest.jane.bilder.R;
-import se.sugarest.jane.bilder.ui.MainActivity;
 
 /**
  * Created by jane on 17-10-31.
@@ -27,7 +26,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
      * An On-click handler to make it easy for MainActivity to interface with the RecyclerView
      */
     private final PhotoAdapterOnClickHandler mClickHandler;
-    private MainActivity mainActivity;
+    private Context mContext;
     private ArrayList<String> mPhotoUrlStrings = new ArrayList<>();
 
     /**
@@ -35,11 +34,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
      *
      * @param clickHandler The on-click handler for this adapter. This single handler is called
      *                     when an item is clicked.
-     * @param mainActivity The context to pass down for {@link Picasso}.with(mainActivity)...
+     * @param context The context to pass down for {@link Picasso}.with(context)...
      */
-    public PhotoAdapter(PhotoAdapterOnClickHandler clickHandler, MainActivity mainActivity) {
+    public PhotoAdapter(PhotoAdapterOnClickHandler clickHandler, Context context) {
         mClickHandler = clickHandler;
-        this.mainActivity = mainActivity;
+        this.mContext = context;
     }
 
     /**
@@ -84,7 +83,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapter
         Log.i(LOG_TAG, "Picasso is loading picture: " + currentPhoto);
         // Set photo using its url with Picasso Lib
         // Reference: https://github.com/square/picasso
-        Picasso.with(mainActivity)
+        Picasso.with(mContext)
                 .load(currentPhoto)
                 .placeholder(R.drawable.blackbg_picasso)
                 .error(R.drawable.blackbg_picasso)

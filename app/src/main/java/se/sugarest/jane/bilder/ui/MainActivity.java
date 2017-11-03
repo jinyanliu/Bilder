@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
                 Log.i(LOG_TAG, "response.body().toString == " + response.body().toString());
                 // Get the list of photos from response.
                 List<Photo> photoLists = response.body().getPhotos().getPhoto();
-                if (photoLists.size() > 0) {
+                if (photoLists != null && photoLists.size() > 0) {
                     setPhotoListDataToRecyclerView(photoLists);
                 } else {
                     showEmptyView();

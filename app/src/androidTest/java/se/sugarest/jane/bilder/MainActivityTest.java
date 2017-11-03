@@ -14,6 +14,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.notNullValue;
@@ -32,6 +33,7 @@ public class MainActivityTest {
     @Test
     public void mainActivitySearchEditTextTest() {
         onView(withId(R.id.editText)).check(matches(notNullValue()));
+        onView(withId(R.id.editText)).check(matches(withHint(R.string.edit_text_search_hint)));
         onView(withId(R.id.editText)).perform(typeText("Flower"), closeSoftKeyboard());
         onView(withId(R.id.editText)).check(matches(withText("Flower")));
     }
