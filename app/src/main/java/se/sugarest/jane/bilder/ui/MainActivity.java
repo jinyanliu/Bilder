@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
 
             @Override
             public void onFailure(Call<JSONResponse> call, Throwable t) {
-                Log.i(LOG_TAG, "GET response failure.");
+                Log.e(LOG_TAG, "Failed to get photos list back.", t);
                 showToast();
                 if (mToast != null) {
                     mToast.cancel();

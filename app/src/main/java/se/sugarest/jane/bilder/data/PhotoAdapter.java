@@ -26,7 +26,7 @@ import se.sugarest.jane.bilder.R;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoAdapterViewHolder> {
     private final static String LOG_TAG = PhotoAdapter.class.getSimpleName();
 
-    // An On-click handler to make it easy for MainActivity to interface with the RecyclerView
+    // An On-click handler to make it easy for MainActivity to interact with the RecyclerView
     private final PhotoAdapterOnClickHandler mClickHandler;
     private Context mContext;
     private ArrayList<String> mPhotoUrlStrings = new ArrayList<>();
