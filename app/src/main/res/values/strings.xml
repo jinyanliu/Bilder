@@ -14,6 +14,11 @@
     Used in MainActivity.java -->
     <string name="toast_message_no_search_key_word_provided">Please tell me what to search! :)</string>
 
+    <!-- The toast message shows up on main screen, if the GET method with Retrofit get onFailure
+    callback, which means get photos failed.
+    Used in MainActivity.java -->
+    <string name="toast_message_retrofit_get_on_failure">Something went wrong.:( Please try again.</string>
+
     <!-- The text to show on main screen, when no results found after searching.
     Used in activity_main.xml -->
     <string name="empty_result_text_view_string">No photos found! Please try another key word! :)</string>

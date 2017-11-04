@@ -152,7 +152,13 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             @Override
             public void onFailure(Call<JSONResponse> call, Throwable t) {
                 Log.i(LOG_TAG, "GET response failure.");
-                showEmptyView();
+                showToast();
+                if (mToast != null) {
+                    mToast.cancel();
+                }
+                mToast = Toast.makeText(MainActivity.this, getString(R.string.toast_message_retrofit_get_on_failure), Toast.LENGTH_SHORT);
+                mToast.setGravity(Gravity.BOTTOM, 0, 0);
+                mToast.show();
             }
         });
     }
