@@ -22,7 +22,6 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Created by jane on 17-11-2.
  */
-
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class MainActivityAndroidTest {

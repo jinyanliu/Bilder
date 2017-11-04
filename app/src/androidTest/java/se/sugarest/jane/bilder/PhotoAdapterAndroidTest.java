@@ -17,7 +17,6 @@ import se.sugarest.jane.bilder.data.PhotoAdapter;
 /**
  * Created by jane on 17-11-3.
  */
-
 @RunWith(AndroidJUnit4.class)
 public class PhotoAdapterAndroidTest {
     private Context instrumentationCtx;
