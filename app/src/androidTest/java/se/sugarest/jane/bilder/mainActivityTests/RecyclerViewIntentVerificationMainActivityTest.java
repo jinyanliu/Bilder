@@ -21,15 +21,19 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.IdlingRegistry.getInstance;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.doubleClick;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static se.sugarest.jane.bilder.util.Constants.INTENT_EXTRA_TITLE;
 
 /**
@@ -64,6 +68,9 @@ public class RecyclerViewIntentVerificationMainActivityTest {
         onView(withId(R.id.recyclerview_photos)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         intended(allOf(hasExtraWithKey(INTENT_EXTRA_TITLE),
                 hasComponent(DetailActivity.class.getName())));
+
+        onView(withId(R.id.iv_full_size_photo)).check(matches(isDisplayed())).check(matches(notNullValue()))
+                .perform(doubleClick());
     }
 
     // Remember to unregister resources when not needed to avoid malfunction.
