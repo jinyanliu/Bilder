@@ -3,6 +3,10 @@ package se.sugarest.jane.bilder.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,9 +31,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import se.sugarest.jane.bilder.R;
 import se.sugarest.jane.bilder.api.FlickrClient;
+import se.sugarest.jane.bilder.data.PhotoAdapter;
 import se.sugarest.jane.bilder.data.types.JSONResponse;
 import se.sugarest.jane.bilder.data.types.Photo;
-import se.sugarest.jane.bilder.data.PhotoAdapter;
+import se.sugarest.jane.bilder.idlingResource.SimpleIdlingResource;
 
 import static se.sugarest.jane.bilder.util.Constants.API_KEY;
 import static se.sugarest.jane.bilder.util.Constants.CONFIGURATION_KEY;
@@ -63,6 +68,22 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     private String mEditTextString;
     ArrayList<String> mPhotoUrlStrings;
 
+    // The Idling Resource which will be null in production.
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    /**
+     * Only called from test, creates and returns a new {@link SimpleIdlingResource}.
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
             mPhotoUrlStrings = savedInstanceState.getStringArrayList(CONFIGURATION_KEY);
             mPhotoAdapter.setPhotoData(mPhotoUrlStrings);
         }
+
+        // Get the IdlingResource instance
+        getIdlingResource();
     }
 
     /**
@@ -124,6 +148,11 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
     // Use External Library Retrofit to GET photos list, according to user input key word as a parameter.
     // Reference: https://github.com/square/retrofit
     private void sendNetworkRequestGet() {
+
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(false);
+        }
+
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder =
                 new Retrofit.Builder()
@@ -144,6 +173,11 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Phot
                 List<Photo> photoLists = response.body().getPhotos().getPhoto();
                 if (photoLists != null && !photoLists.isEmpty()) {
                     setPhotoListDataToRecyclerView(photoLists);
+
+                    if (mIdlingResource != null) {
+                        mIdlingResource.setIdleState(true);
+                    }
+
                 } else {
                     showEmptyView();
                 }
