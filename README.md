@@ -5,7 +5,7 @@ P.S. To run the app, you have to provide YOUR_API_KEY in se.sugarest.jane.bilder
 
 README
 
-tests
+Tests
 
 1. Test all UI widgets are displayed on the main screen and detail screen.
 
