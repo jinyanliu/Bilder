@@ -1,4 +1,4 @@
-package se.sugarest.jane.bilder;
+package se.sugarest.jane.bilder.mainActivityTests;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import se.sugarest.jane.bilder.R;
 import se.sugarest.jane.bilder.ui.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
