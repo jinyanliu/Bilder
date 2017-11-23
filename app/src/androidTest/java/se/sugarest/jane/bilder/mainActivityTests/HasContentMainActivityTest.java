@@ -14,10 +14,16 @@ import se.sugarest.jane.bilder.R;
 import se.sugarest.jane.bilder.ui.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Created by jane on 17-11-23.
@@ -38,13 +44,18 @@ public class HasContentMainActivityTest {
 
     @Test
     public void mainScreenHasContent_EditTextView() {
-        onView(withId(R.id.editText)).check(matches(isDisplayed()));
+        onView(withId(R.id.editText)).check(matches(isDisplayed()))
+                .check(matches(notNullValue())).check(matches(withHint(R.string.edit_text_search_hint)));
     }
 
     @Test
     public void mainScreenHasContent_SearchButton() {
         onView(withId(R.id.button)).check(matches(isDisplayed()))
-                .check(matches(withText(instrumentationCtx.getString(R.string.button_text_search))));
+                .check(matches(withText(instrumentationCtx.getString(R.string.button_text_search)))).perform(click());
+
+        onView(withText(instrumentationCtx.getString(R.string.toast_message_no_search_key_word_provided)))
+                .inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView()))))
+                .check(matches(isDisplayed()));
     }
 
     @Test
